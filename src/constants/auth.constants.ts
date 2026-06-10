@@ -1,0 +1,15 @@
+export const authConstants = {
+  SIGNUP: 'Sign Up',
+  ALREADYHAVEACCOUNT: 'Already have an account?',
+  DONTHAVEANACCOUNT: "Don't have an account?",
+  CREATEONE: 'Create one',
+  SIGNIN: 'Sign In',
+  ENTERFIRSTNAME: 'Enter First Name',
+  ENTERLASTNAME: 'Enter Last Name',
+  ENTERUSERNAME: 'Enter Username',
+  ENTEREMAIL: 'Enter Email',
+  ENTERPASSWORD: 'Enter Password',
+  CONFIRMPASSWORD: 'Enter Confirm Password',
+  REGISTER: 'Register',
+  LOGIN: 'Login',
+};
