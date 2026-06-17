@@ -8,7 +8,7 @@ export default function ProgressDetails() {
   const percentages = '';
 
   return (
-    <div className="row-span-2  flex flex-col items-center border-stone-200 shadow-[0_0_25px_rgba(0,0,0,0.1)] rounded-xl text-xl pt-[10px] pb-[20px] px-10 ">
+    <div className="row-span-2  flex flex-col items-center border-stone-200 shadow-[0_0_25px_rgba(0,0,0,0.1)] rounded-xl text-xl pt-[10px] pb-[20px] px-10">
       <div className="mb-[20px] mr-auto text-green-500 flex gap-[5px] items-center">
         <div className="text-md">
           <MdOutlineInventory className="text-[25px] text-stone-300" />
