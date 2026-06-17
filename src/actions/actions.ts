@@ -1,7 +1,7 @@
 'use server';
 
 import { extractCookieValue } from '@/helpers/extract-cookie';
-import { LoginFormState } from '@/types/login-formState';
+import { LoginFormState } from '@/types/login-formstate';
 import { RegisterFormState } from '@/types/register-formstate';
 import { loginSchema } from '@/validations/login.validation';
 import { registerSchema } from '@/validations/register.validation';
@@ -99,9 +99,14 @@ export async function submitLoginForm(previousState: LoginFormState, formData: F
       httpOnly: true,
       secure: true,
       sameSite: 'none',
-      maxAge: 604800000,
+      maxAge: 1 * 24 * 60 * 60,
     });
   }
+  return { ...raw, password: undefined, errors: {}, success: data, accessToken: data.accessToken };
+}
 
-  return { ...raw, password: undefined, errors: {}, success: data };
+export async function logoutAction() {
+  const cookieStorage = await cookies();
+  cookieStorage.delete('refreshToken');
+  return true;
 }

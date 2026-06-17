@@ -7,4 +7,5 @@ export type LoginFormState = {
     message?: string[];
   };
   success?: string | string[] | object;
+  accessToken?: string;
 };

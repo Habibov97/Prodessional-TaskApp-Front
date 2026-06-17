@@ -14,7 +14,7 @@ import { useActionState, useEffect, useState } from 'react';
 import { LoginFormState } from '@/types/login-formstate';
 import { submitLoginForm } from '@/actions/actions';
 import { toast } from 'sonner';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [toggleViewPassword, setToggleViewPassword] = useState(false);
@@ -22,17 +22,27 @@ export default function Login() {
   const [state, action, isLoading] = useActionState<LoginFormState, FormData>(submitLoginForm, {});
 
   useEffect(() => {
-    if (state.success) {
-      toast.success('Welcome to TaskAPP! You are successfully logged in', { position: 'top-right' });
-      router.replace('/dashboard');
+    if (state.accessToken) {
+      localStorage.setItem('accessToken', JSON.stringify(state.accessToken));
     }
-  });
+  }, [state.accessToken]);
 
   useEffect(() => {
     if (state.errors?.message) {
       toast.error('Login failed!', { position: 'top-right' });
     }
-  });
+  }, [state.errors]);
+
+  useEffect(() => {
+    if (state.success) {
+      toast.success('Welcome to TaskAPP! You are successfully logged in', { position: 'top-right' });
+      new Promise((resolve) =>
+        setTimeout(() => {
+          resolve(router.replace('/dashboard'));
+        }, 2000),
+      );
+    }
+  }, [state.success, state.accessToken]);
 
   return (
     <div className="h-screen border  flex items-center justify-center">
