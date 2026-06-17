@@ -2,7 +2,7 @@ import Task from '@/components/Task';
 import { FaTrash } from 'react-icons/fa';
 import { PiNotePencilDuotone } from 'react-icons/pi';
 
-export default function VitalTaskPage() {
+export default function MyTaskPage() {
   return (
     <section className="px-[76px] flex-1 ">
       <main className="rounded-xl h-[75dvh]">

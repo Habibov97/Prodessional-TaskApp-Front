@@ -50,7 +50,7 @@ export default function SafeCircularProgress({
           fill="transparent"
         />
       </svg>
-      {/* Ortadakı mətn */}
+
       <span className="absolute text-lg font-bold text-foreground">{currentPercent}%</span>
     </div>
   );

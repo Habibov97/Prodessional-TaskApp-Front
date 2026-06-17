@@ -19,21 +19,12 @@ export default function ToDo() {
       </div>
       <div className="self-start text-xs pb-[10px] ">20 June Today</div>
       <div className="overflow-y-auto w-full flex-1 flex flex-col gap-3 pr-5 custom-scrollbar">
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
-        <Task />
+        <Task completed={false} />
+        <Task completed={false} />
+        <Task completed={false} />
+        <Task completed={false} />
+        <Task completed={false} />
+        <Task completed={false} />
       </div>
     </div>
   );
