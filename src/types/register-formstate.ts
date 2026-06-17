@@ -1,9 +1,10 @@
 export type RegisterFormState = {
-  firstName?: string;
-  lastName?: string;
-  userName?: string;
-  password?: string;
-  confirmPassword?: string;
+  firstName?: FormDataEntryValue | null;
+  lastName?: FormDataEntryValue | null;
+  userName?: FormDataEntryValue | null;
+  email?: FormDataEntryValue | null;
+  password?: FormDataEntryValue | null;
+  confirmPassword?: FormDataEntryValue | null;
   errors?: {
     firstName?: string[];
     lastName?: string[];

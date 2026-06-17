@@ -50,7 +50,6 @@ export default function Register() {
               <div className="relative">
                 <Input
                   id="firstname"
-                  defaultValue={state.firstName?.toString() || ''}
                   name="firstname"
                   type="text"
                   autoComplete="off"
@@ -66,7 +65,6 @@ export default function Register() {
                 <Input
                   id="lastname"
                   name="lastname"
-                  defaultValue={state.lastName?.toString() || ''}
                   type="text"
                   autoComplete="off"
                   placeholder={authConstants.ENTERLASTNAME}
@@ -81,7 +79,6 @@ export default function Register() {
                 <Input
                   id="username"
                   name="username"
-                  defaultValue={state.userName?.toString() || ''}
                   type="text"
                   autoComplete="off"
                   placeholder={authConstants.ENTERUSERNAME}
@@ -96,7 +93,6 @@ export default function Register() {
                 <Input
                   id="email"
                   name="email"
-                  defaultValue={state.email?.toString() || ''}
                   type="text"
                   autoComplete="off"
                   placeholder={authConstants.ENTEREMAIL}

@@ -1,6 +1,6 @@
 export type LoginFormState = {
-  userName?: string;
-  password?: string;
+  userName?: FormDataEntryValue | null;
+  password?: FormDataEntryValue | null;
   errors?: {
     userName?: string[];
     password?: string[];
