@@ -47,7 +47,7 @@ export default function AddTaskModal() {
                   <Input id="title" name="title" />
                 </Field>
                 <Field>
-                  <Label htmlFor="title" className="font-bold text-[#333]">
+                  <Label htmlFor="priority" className="font-bold text-[#333]">
                     Priority
                   </Label>
                   <div className="flex gap-5">
