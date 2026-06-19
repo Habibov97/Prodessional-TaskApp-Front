@@ -44,9 +44,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">Completed</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskStatus={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskStatus={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>
@@ -59,9 +58,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">In Progress</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskStatus={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskStatus={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>
@@ -74,9 +72,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">Not Started</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskStatus={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskStatus={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>
@@ -96,7 +93,7 @@ export default function TaskCategories() {
               <h3 className="relative text-md font-bold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-[50px] after:bg-green-500">
                 Task Priority
               </h3>
-              <TaskCategoriesActions taskPriority={true} />
+              <TaskCategoriesActions taskPriority={true} edit={false} />
             </div>
 
             {/* TASK PRIORITY */}
@@ -117,9 +114,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">Extreme</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskPriority={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskPriority={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>
@@ -132,9 +128,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">Moderate</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskPriority={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskPriority={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>
@@ -147,9 +142,8 @@ export default function TaskCategories() {
                     <TableCell className="w-[55%] text-center align-middle text-stone-600">Low</TableCell>
                     <TableCell className="w-[35%] text-center align-middle">
                       <div className="flex gap-2 items-center justify-center w-full">
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          <TaskCategoriesActions taskPriority={true} edit={true} />
-                        </Button>
+                        <TaskCategoriesActions taskPriority={true} edit={true} />
+
                         <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
                           Delete
                         </Button>

@@ -18,14 +18,14 @@ export default function AccountInfo() {
         <div className="flex gap-2 mt-10">
           <Link
             className="bg-red-500 rounded-md hover:bg-red-600 flex items-center justify-center text-white p-2"
-            href="/dashboard/account/changepassword"
+            href="#"
           >
             Update Info
           </Link>
 
           <Link
             className="bg-red-500 rounded-md hover:bg-red-600 flex items-center justify-center text-white p-2"
-            href="/dashboard/account/changepassword"
+            href="/dashboard/settings/changepassword"
           >
             Change Password
           </Link>

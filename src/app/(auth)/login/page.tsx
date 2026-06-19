@@ -12,7 +12,7 @@ import { FaRegEyeSlash } from 'react-icons/fa6';
 import { FaRegEye } from 'react-icons/fa6';
 import { useActionState, useEffect, useState } from 'react';
 import { LoginFormState } from '@/types/login-formstate';
-import { submitLoginForm } from '@/actions/actions';
+import { submitLoginForm } from '@/actions/auth.actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 

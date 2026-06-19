@@ -25,14 +25,16 @@ export default function TaskCategoriesActions({ taskPriority, taskStatus, edit =
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <div className="flex gap-1 items-center text-[14px] cursor-pointer">
+      <DialogTrigger asChild className="cursor-pointer">
+        <div className={`${!edit && 'flex text-stone-400 text-[14px] items-center'} `}>
           {!edit && (
             <span className="text-[23px]">
               <HiOutlinePlusSmall className="text-green-400" />
             </span>
           )}
-          <span className={`text-[14px] ${!edit ? 'text-stone-400' : 'text-white'} `}>
+          <span
+            className={`${edit && 'text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-8.5 shrink-0 flex items-center justify-center'}`}
+          >
             {!edit && taskStatus && 'Add Task Status'}
             {!edit && taskPriority && 'Add Task Priority'}
             {edit && 'Edit'}

@@ -5,7 +5,7 @@ import { dashboardNavMocks } from '../mocks/dashboardNavigation.mocks';
 
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { logoutAction } from '@/actions/actions';
+import { logoutAction } from '@/actions/auth.actions';
 
 export default function DashboardNavigation() {
   const pathName = usePathname();
@@ -23,10 +23,10 @@ export default function DashboardNavigation() {
         <div className="absolute w-[100px] h-[100px] rounded-full overflow-hidden bg-stone-400 top-[-50px] left-1/2 -translate-x-1/2 ">
           {/* <img style={{ background: '' }} src="" alt="" /> */}
         </div>
-        <Link href="/dashboard/account" className="mt-[60px] mb-[30px] text-center">
+        <div className="mt-[60px] mb-[30px] text-center">
           <p className="font-bold"> Najaf Habibov</p>
           <p>najaf.habibov@gmail.com</p>
-        </Link>
+        </div>
         <div className="flex flex-col justify-between min-h-[60dvh]">
           <div className="flex flex-col gap-3">
             {dashboardNavMocks?.map((item) => {

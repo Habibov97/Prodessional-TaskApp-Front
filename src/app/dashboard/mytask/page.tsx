@@ -1,6 +1,8 @@
 import Task from '@/components/Task';
 import { FaTrash } from 'react-icons/fa';
 import { PiNotePencilDuotone } from 'react-icons/pi';
+import { CgDetailsMore } from 'react-icons/cg';
+import Link from 'next/link';
 
 export default function MyTaskPage() {
   return (
@@ -41,12 +43,15 @@ export default function MyTaskPage() {
               and healthy day. Don't forget to bring along squeaky and fluffy for some extra fun along the way!
             </div>
             <div className="flex gap-3 mt-auto justify-end">
-              <div className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
+              <div role="button" className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
                 <FaTrash className="w-[18px] h-[18px] text-white" />
               </div>
-              <div className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
-                <PiNotePencilDuotone className="w-[18px] h-[18px] text-white" />
-              </div>
+              <Link
+                href="/dashboard/mytask/:id"
+                className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center"
+              >
+                <CgDetailsMore className="w-[18px] h-[18px] text-white" />
+              </Link>
             </div>
           </div>
         </div>

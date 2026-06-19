@@ -12,7 +12,7 @@ import { FaRegEye } from 'react-icons/fa6';
 import { FaRegUser } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { RiLockPasswordLine } from 'react-icons/ri';
-import { submitRegisterForm } from '@/actions/actions';
+import { submitRegisterForm } from '@/actions/auth.actions';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';

@@ -1,6 +1,7 @@
 import Task from '@/components/Task';
 import { FaTrash } from 'react-icons/fa';
-import { PiNotePencilDuotone } from 'react-icons/pi';
+import { CgDetailsMore } from 'react-icons/cg';
+import Link from 'next/link';
 
 export default function VitalTaskPage() {
   return (
@@ -8,6 +9,11 @@ export default function VitalTaskPage() {
       <main className="rounded-xl h-[75dvh]">
         <div className="flex gap-2 h-full">
           <div className="row-span-5 flex flex-1 flex-col gap-2 items-center h-full min-h-0 rounded-xl text-xl pt-[15px] pb-[20px] px-8 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)] overflow-y-auto">
+            <div className="self-start mb-2">
+              <h2 className="relative text-md font-semibold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500">
+                Vital Tasks
+              </h2>
+            </div>
             <Task completed={false} />
             <Task completed={false} />
           </div>
@@ -39,9 +45,12 @@ export default function VitalTaskPage() {
               <div className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
                 <FaTrash className="w-[18px] h-[18px] text-white" />
               </div>
-              <div className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
-                <PiNotePencilDuotone className="w-[18px] h-[18px] text-white" />
-              </div>
+              <Link
+                href="/dashboard/mytask/:id"
+                className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center"
+              >
+                <CgDetailsMore className="w-[18px] h-[18px] text-white" />
+              </Link>
             </div>
           </div>
         </div>

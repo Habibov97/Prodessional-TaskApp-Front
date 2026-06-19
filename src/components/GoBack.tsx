@@ -6,7 +6,7 @@ export default function GoBack() {
   return (
     <button
       onClick={() => router.back()}
-      className="flex items-center gap-1 text-sm font-semibold text-[#333]  transition-colors cursor-pointer underline"
+      className="flex items-center gap-1 text-sm font-semibold text-[#333]  transition-colors cursor-pointer underline whitespace-nowrap"
     >
       Go Back
     </button>
