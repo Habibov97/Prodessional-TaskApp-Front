@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <header className="px-[75px] py-[20px]  bg-[#f8f8f8] shadow-md/10">
-      <nav className="max-w-[1200px] mx-auto  flex justify-between items-center">
+      <nav className=" flex justify-between items-center">
         <div className="text-3xl font-bold text-red-500">
           Dash<span className="text-[#333]">board</span>
         </div>
