@@ -1,7 +1,8 @@
 'use client';
 import { FaSearch } from 'react-icons/fa';
-import { FaCalendarAlt } from 'react-icons/fa';
+import { FaUserLarge } from 'react-icons/fa6';
 import { IoMdNotificationsOutline } from 'react-icons/io';
+import Link from 'next/link';
 export default function Navbar() {
   return (
     <header className="px-[75px] py-[20px]  bg-[#f8f8f8] shadow-md/10">
@@ -10,7 +11,7 @@ export default function Navbar() {
           Dash<span className="text-[#333]">board</span>
         </div>
 
-        <div className="relative max-w-[700px] w-full ">
+        <div role="button" className="relative max-w-[700px] w-full ">
           <input
             type="text"
             placeholder="Search your task here..."
@@ -21,12 +22,15 @@ export default function Navbar() {
           </div>
         </div>
         <div className="flex gap-[5px] items-center">
-          <div className="flex items-center justify-center  w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md">
+          <div className="flex items-center justify-center w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md cursor-pointer">
             <IoMdNotificationsOutline className="text-xl" />
           </div>
-          <div className="flex items-center justify-center  w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md">
-            <FaCalendarAlt className="text-md" />
-          </div>
+          <Link
+            href="/dashboard/account"
+            className="flex items-center justify-center  w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md cursor-pointer"
+          >
+            <FaUserLarge className="text-md" />
+          </Link>
         </div>
 
         <div className="flex flex-col gap-[0.5px]">

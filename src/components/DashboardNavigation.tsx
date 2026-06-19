@@ -23,10 +23,10 @@ export default function DashboardNavigation() {
         <div className="absolute w-[100px] h-[100px] rounded-full overflow-hidden bg-stone-400 top-[-50px] left-1/2 -translate-x-1/2 ">
           {/* <img style={{ background: '' }} src="" alt="" /> */}
         </div>
-        <div className="mt-[60px] mb-[30px] text-center">
+        <Link href="/dashboard/account" className="mt-[60px] mb-[30px] text-center">
           <p className="font-bold"> Najaf Habibov</p>
           <p>najaf.habibov@gmail.com</p>
-        </div>
+        </Link>
         <div className="flex flex-col justify-between min-h-[60dvh]">
           <div className="flex flex-col gap-3">
             {dashboardNavMocks?.map((item) => {

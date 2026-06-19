@@ -1,7 +1,8 @@
 import { GrDocumentTime } from 'react-icons/gr';
-import { HiOutlinePlusSmall } from 'react-icons/hi2';
-import Link from 'next/link';
+
 import Task from './Task';
+import AddTaskModal from './AddTaskModal';
+
 export default function ToDo() {
   return (
     <div className="row-span-6 shadow-[0_0_25px_rgba(0,0,0,0.08)] flex flex-col items-center h-full min-h-0 rounded-xl text-xl pt-[12px] pb-[20px] px-10">
@@ -10,12 +11,9 @@ export default function ToDo() {
           <GrDocumentTime className="text-[23px] text-stone-300" />
           <div className="text-[14px]">To-Do</div>
         </div>
-        <Link href="ehaaaaaa" className="flex gap-[2px] items-center">
-          <span className="text-[23px]">
-            <HiOutlinePlusSmall />
-          </span>
-          <span className="text-[14px]">Add task</span>
-        </Link>
+        <div>
+          <AddTaskModal />
+        </div>
       </div>
       <div className="self-start text-xs pb-[10px] ">20 June Today</div>
       <div className="overflow-y-auto w-full flex-1 flex flex-col gap-3 pr-5 custom-scrollbar">
