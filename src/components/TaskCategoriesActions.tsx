@@ -47,7 +47,7 @@ export default function TaskCategoriesActions({ taskPriority, taskStatus, edit =
           <DialogTitle className="relative text-md font-semibold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-400 self-start mb-2">
             {titleText}
           </DialogTitle>
-          {/* Brauzer xətası olmasın deyə gizli təsvir */}
+          {/* Brauzer xətası olmasın deyə gizli gonder bunu */}
           <DialogDescription className="sr-only">Form to manage task categories.</DialogDescription>
         </DialogHeader>
 
@@ -56,8 +56,8 @@ export default function TaskCategoriesActions({ taskPriority, taskStatus, edit =
             <FieldGroup className="w-2/3">
               <Field>
                 <Label htmlFor="title" className="font-bold text-[#333]">
-                  {taskStatus && 'Task Status Name'}
-                  {taskPriority && 'Task Priority Name'}
+                  {taskStatus && 'Task Status Title'}
+                  {taskPriority && 'Task Priority Title'}
                 </Label>
                 <Input id="title" name="title" />
               </Field>

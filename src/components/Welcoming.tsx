@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Welcoming() {
   return (
     <section className="flex justify-between">
-      <h1 className="text-3xl font-semibold text-[#333]">Welcome Najaf Habibov 👋</h1>
+      <h1 className="text-3xl font-semibold text-[#333]">Welcome Tahira Habibova 👋</h1>
       <div className="flex gap-[20px] items-center">
         <div className="flex gap-1">
           <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>

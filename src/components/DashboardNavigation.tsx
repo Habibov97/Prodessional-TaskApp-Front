@@ -24,8 +24,8 @@ export default function DashboardNavigation() {
           {/* <img style={{ background: '' }} src="" alt="" /> */}
         </div>
         <div className="mt-[60px] mb-[30px] text-center">
-          <p className="font-bold"> Najaf Habibov</p>
-          <p>najaf.habibov@gmail.com</p>
+          <p className="font-bold">Tahira Habibova</p>
+          <p>tahirahabibova@gmail.com</p>
         </div>
         <div className="flex flex-col justify-between min-h-[60dvh]">
           <div className="flex flex-col gap-3">
