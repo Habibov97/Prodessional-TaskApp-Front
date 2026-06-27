@@ -50,15 +50,14 @@ export default function DashboardNavigation() {
               .map((item) => {
                 const Icon = item.icon;
                 return (
-                  <Link
-                    href={item.href}
+                  <div
                     key={item.id}
                     onClick={handleLogout}
-                    className={`flex items-center gap-3 py-[15px] px-[30px] rounded-xl $ `}
+                    className={`flex items-center gap-3 py-[15px] px-[30px] rounded-xl cursor-pointer`}
                   >
                     <Icon size={25} />
                     <span>{item.title}</span>
-                  </Link>
+                  </div>
                 );
               })}
           </div>

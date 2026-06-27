@@ -99,14 +99,22 @@ export async function submitLoginForm(previousState: LoginFormState, formData: F
       httpOnly: true,
       secure: true,
       sameSite: 'none',
+      maxAge: 14 * 24 * 60 * 60,
+    });
+
+    cookieStore.set('accessToken', extractCookieValue(setCookie, 'accessToken'), {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
       maxAge: 1 * 24 * 60 * 60,
     });
   }
-  return { ...raw, password: undefined, errors: {}, success: data, accessToken: data.accessToken };
+  return { ...raw, password: undefined, errors: {}, success: data };
 }
 
 export async function logoutAction() {
   const cookieStorage = await cookies();
   cookieStorage.delete('refreshToken');
+  cookieStorage.delete('accessToken');
   return true;
 }

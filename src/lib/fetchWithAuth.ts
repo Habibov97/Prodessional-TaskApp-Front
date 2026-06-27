@@ -1,73 +1,47 @@
-let isRefreshing = false;
-let refreshSubscribers: ((token: string) => void)[] = [];
+let refreshPromise: Promise<string | null> | null = null;
 
-function subscribeTokenRefresh(cb: (token: string) => void) {
-  refreshSubscribers.push(cb);
+async function refreshAccessToken(): Promise<string | null> {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      try {
+        const res = await fetch('/api/refresh', {
+          method: 'POST',
+          credentials: 'include',
+        });
+        if (!res.ok) return null;
+
+        const { accessToken } = await res.json();
+        localStorage.setItem('accessToken', accessToken);
+        return accessToken;
+      } finally {
+        refreshPromise = null;
+      }
+    })();
+  }
+  return refreshPromise;
 }
 
-function onRerfreshsed(token: string) {
-  refreshSubscribers.map((cb) => cb(token));
-  refreshSubscribers = [];
-}
-
-export async function fetchWithAuth(url: string, options: RequestInit = {}) {
-  let accessToken = localStorage.getItem('accessToken');
-
-  let res = await fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
+export async function fetchWithAuth(url: string, options: RequestInit = {}): Promise<Response> {
+  const isFormData = options.body instanceof FormData;
+  const buildHeaders = (token: string | null) => ({
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
   });
 
+  const accessToken = localStorage.getItem('accessToken');
+  let res = await fetch(url, { ...options, headers: buildHeaders(accessToken) });
+
   if (res.status === 401) {
-    if (isRefreshing) {
-      return new Promise((resolve) => {
-        subscribeTokenRefresh((newToken) => {
-          resolve(
-            fetch(url, {
-              ...options,
-              headers: {
-                ...options.headers,
-                Authorization: `Bearer ${newToken}`,
-                'Content-Type': 'application/json',
-              },
-            }),
-          );
-        });
-      });
-    }
+    const newToken = await refreshAccessToken();
 
-    isRefreshing = true;
-
-    const refreshRes = await fetch(`/api/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-
-    if (!refreshRes.ok) {
-      isRefreshing = false;
+    if (!newToken) {
       localStorage.removeItem('accessToken');
       window.location.href = '/login';
       return res;
     }
 
-    const { accessToken: newToken } = await refreshRes.json();
-    localStorage.setItem('accessToken', newToken);
-
-    isRefreshing = false;
-    onRerfreshsed(newToken); // Digər gözləyən sorğulara yeni tokeni göndər
-
-    res = await fetch(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${newToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    res = await fetch(url, { ...options, headers: buildHeaders(newToken) });
   }
 
   return res;

@@ -30,12 +30,12 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get('refreshToken');
+  // const cookieStore = await cookies();
+  // const refreshToken = cookieStore.get('refreshToken');
 
-  if (!refreshToken?.value) {
-    return redirect('/login');
-  }
+  // if (!refreshToken?.value) {
+  //   return redirect('/login');
+  // }
 
   return (
     <html

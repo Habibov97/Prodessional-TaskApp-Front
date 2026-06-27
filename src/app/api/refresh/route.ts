@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   const cookieHeader = request.headers.get('cookie') ?? '';
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refresh`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
     method: 'POST',
     headers: {
       cookie: cookieHeader,
