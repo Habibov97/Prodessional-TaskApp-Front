@@ -11,7 +11,7 @@ function decodeJwtExp(token: string): number | null {
   }
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value;
   const refreshToken = request.cookies.get('refreshToken')?.value;
 
@@ -38,13 +38,18 @@ export async function middleware(request: NextRequest) {
     return redirectRes;
   }
 
-  const data = await refreshRes.json();
   const setCookieHeader = refreshRes.headers.get('set-cookie') ?? '';
   const newRefreshToken = extractCookieValue(setCookieHeader, 'refreshToken');
+  const newAccessToken = extractCookieValue(setCookieHeader, 'accessToken');
 
-  const response = NextResponse.next();
+  // request.cookies.set('accessToken', data.accessToken);
+  // if (newRefreshToken) {
+  //   request.cookies.set('refreshToken', newRefreshToken);
+  // }
 
-  response.cookies.set('accessToken', data.accessToken, {
+  const response = NextResponse.next({ request });
+
+  response.cookies.set('accessToken', newAccessToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',

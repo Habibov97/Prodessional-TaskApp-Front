@@ -1,32 +1,13 @@
-'use client';
-
 import GoBack from '@/components/GoBack';
-import { fetchWithAuth } from '@/lib/fetchWithAuth';
-import { TaskType } from '@/types/task.types';
-import { useEffect, useState, use } from 'react';
+import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 import { FaTrash } from 'react-icons/fa';
 import { PiNotePencilDuotone } from 'react-icons/pi';
 import { format } from 'date-fns';
 
-export default function TaskDetails({ params }: { params: Promise<{ id: string }> }) {
-  const [data, setData] = useState<TaskType>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { id } = use(params);
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/task/${id}`)
-      .then((res) => res.json())
-      .then((data) => setData(data.data));
-
-    setIsLoading(false);
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+export default async function TaskDetails({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/task/${id}`);
+  const { data } = await res.json();
 
   return (
     <section className="px-[76px] flex-1">
@@ -40,11 +21,11 @@ export default function TaskDetails({ params }: { params: Promise<{ id: string }
                   <h2 className="text-3xl font-semibold">{data?.title}</h2>
                   <div className="text-sm flex gap-1">
                     <div>Priority:</div>
-                    <div className="text-red-500">{data?.priority.title}</div>
+                    <div className="text-red-500">{data?.priority?.title}</div>
                   </div>
                   <div className="text-sm flex gap-1">
                     <div>Status:</div>
-                    <div className="text-red-500">{data?.status.title}</div>
+                    <div className="text-red-500">{data?.status?.title}</div>
                   </div>
                   <div className="text-sm flex gap-1 text-stone-400">
                     <div>Created on</div>

@@ -47,17 +47,17 @@ export default function Task({
   const minutes = Math.floor(milleseconds / (1000 * 60));
 
   return (
-    <div className="relative border border-stone-400 rounded-xl shrink-0 min-h-[150px] px-[16px] py-[10px] flex gap-3 w-full">
+    <div className="relative border max-w-[450px] w-full border-stone-400 rounded-xl min-h-[150px] px-[16px] py-[10px] flex gap-3 ">
       <div
         className={`w-3.75 h-3.75 rounded-full border-2  ${status === 'Not Started' ? 'border-red-500' : status === 'In Progress' ? 'border-purple-500' : 'border-green-500'} bg-white `}
       ></div>
-      <div onClick={() => onActiveTask(task)} className="flex flex-col gap-1.5 flex-1 min-w-0 cursor-pointer">
+      <div onClick={() => onActiveTask?.(task)} className="flex flex-col gap-1.5 flex-1 min-w-0 cursor-pointer">
         <p className="text-[18px] font-semibold">
           {' '}
-          {task.title.length > 70 ? `${task.title.slice(0, 28)}...` : task.title}
+          {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
         </p>
         <p className="text-sm text-stone-400 w-full break-words ">
-          {task.description.length > 70 ? `${task.description.slice(0, 60)}...` : task.description}
+          {task.description.length > 20 ? `${task.description.slice(0, 45)}...` : task.description}
         </p>
         {completed && (
           <>

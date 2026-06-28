@@ -1,6 +1,8 @@
+'use server';
 import { addTaskSchema } from '@/validations/addTask.validation';
 import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 import type { AddTaskFormState } from '@/types/addTask.types';
+import { revalidatePath } from 'next/cache';
 
 const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -30,6 +32,8 @@ export async function addTaskAction(prevState: AddTaskFormState, formData: FormD
     if (!res.ok) {
       return { success: false, message: 'Server error' };
     }
+
+    revalidatePath('/dashboard');
 
     return { success: true, message: 'Task has been added' };
   } catch (err) {
