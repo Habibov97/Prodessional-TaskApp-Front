@@ -1,33 +1,7 @@
 import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 import { BiTask } from 'react-icons/bi';
 import Task from './Task';
-import { ApiResponse } from '@/types/task.types';
-
-type CompletedTaskProps = {
-  id: string;
-  avatar: string;
-  title: string;
-  description: string;
-  priorityId: string;
-  priority: {
-    createdAt: string;
-    id: string;
-    parentId: string;
-    title: string;
-    updatedAt: string;
-  };
-  statusId: string;
-  status: {
-    createdAt: string;
-    id: string;
-    parentId: string;
-    title: string;
-    updatedAt: string;
-  };
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-};
+import { ApiResponse, TaskType } from '@/types/task.types';
 
 export default async function CompletedTask() {
   const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/task`);
@@ -44,7 +18,7 @@ export default async function CompletedTask() {
         <div className="text-[14px]">Completed Task</div>
       </div>
       <div className="overflow-y-auto w-full flex-1 flex flex-col gap-3 pr-5 custom-scrollbar">
-        {completedTasks?.map((task: CompletedTaskProps) => (
+        {completedTasks?.map((task: TaskType) => (
           <Task key={task.id} task={{ ...task }} />
         ))}
       </div>
