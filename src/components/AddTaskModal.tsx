@@ -133,7 +133,6 @@ export default function AddTaskModal() {
                     ))}
                   </div>
                 )}
-                <FieldError errors={state.errors?.priorityId} />
               </Field>
 
               <Field>
@@ -152,8 +151,6 @@ export default function AddTaskModal() {
                     />
                   </div>
                 )}
-
-                <FieldError errors={state.errors?.statusId} />
               </Field>
 
               <Field>
