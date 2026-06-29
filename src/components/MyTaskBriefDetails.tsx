@@ -7,36 +7,29 @@ import { FaTrash } from 'react-icons/fa';
 
 export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskType | undefined }) {
   return (
-    // min-h-0 və overflow-y-auto əlavə olundu ki, uzun mətn olanda grid hüceyrəsini dağıtmasın
-    <div className="flex flex-col gap-5 md:gap-7 h-full min-h-0 rounded-xl text-xl pt-[15px] pb-[20px] px-4 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)] overflow-y-auto">
+    <div className="flex w-1/2 xl:w-[700px] flex-col gap-7 h-full  rounded-xl text-xl pt-[15px] pb-[20px] px-4 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
       {activeTask ? (
         <>
-          {/* Mobildə şəkil və detallar sığsın deyə flex-col sm:flex-row istifadə edildi */}
-          <div className="w-full flex flex-col sm:flex-row gap-5 items-center sm:items-start">
-            <div className="w-[120px] h-[120px] sm:w-[170px] sm:h-[170px] shrink-0 rounded-xl bg-stone-200"></div>
-
-            <div className="flex flex-col gap-3 justify-start w-full text-center sm:text-left">
+          <div className="w-full flex gap-5">
+            <div className="w-[170px] h-[170px] rounded-xl bg-stone-200"></div>
+            <div className="flex flex-col gap-4 justify-end">
               <h2 className="text-md font-semibold">{activeTask?.title}</h2>
-              <div className="text-sm flex gap-1 justify-center sm:justify-start">
+              <div className="text-sm flex gap-1">
                 <div>Priority:</div>
                 <div className="text-red-500">{activeTask?.priority.title}</div>
               </div>
-              <div className="text-sm flex gap-1 justify-center sm:justify-start">
+              <div className="text-sm flex gap-1">
                 <div>Status:</div>
                 <div className="text-red-500">{activeTask?.status.title}</div>
               </div>
-              <div className="text-sm flex gap-1 text-stone-400 justify-center sm:justify-start">
+              <div className="text-sm flex gap-1 text-stone-400">
                 <div>Created on</div>
                 <div>{activeTask?.createdAt && format(new Date(activeTask?.createdAt), 'dd/MM/yyyy')}</div>
               </div>
             </div>
           </div>
-
-          <div className="text-[16px] md:text-[18px] leading-[1.7] text-stone-600 overflow-y-auto pr-2">
-            {activeTask?.description}
-          </div>
-
-          <div className="flex gap-3 mt-auto justify-end pt-4">
+          <div className="text-[18px] leading-[1.7] text-stone-600 overflow-y-auto">{activeTask?.description}</div>
+          <div className="flex gap-3 mt-auto justify-end">
             <div role="button" className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
               <FaTrash className="w-[18px] h-[18px] text-white" />
             </div>
@@ -49,9 +42,7 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center h-full text-stone-400 text-[16px]">
-          Tap on any task to view brief details
-        </div>
+        'Tap on any task to view brief details'
       )}
     </div>
   );
