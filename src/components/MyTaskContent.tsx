@@ -9,7 +9,7 @@ export default function MyTaskContent({ myTasks }: { myTasks: TaskType[] }) {
 
   const activeTask = myTasks.find((t) => t.id === activeTaskId);
   return (
-    <section className="px-[76px] flex-1 ">
+    <section className="px-[76px] ">
       <main className="rounded-xl h-[75dvh]">
         <div className="flex max-w-[1000px] justify-center gap-2 h-full">
           <div className="flex w-1/2 flex-col gap-2 items-center h-full   rounded-xl text-xl pt-[15px] pb-[20px] px-8 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)] ">
