@@ -7,7 +7,7 @@ import { FaTrash } from 'react-icons/fa';
 
 export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskType | undefined }) {
   return (
-    <div className="flex md:w-1/2 xl:flex-1 flex-col gap-7 h-full  rounded-xl text-xl pt-[15px] pb-[20px] px-4 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
+    <div className="flex flex-1 flex-col gap-7 h-full  rounded-xl text-xl pt-[15px] pb-[20px] px-4 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
       {activeTask ? (
         <>
           <div className="w-full flex gap-5">
