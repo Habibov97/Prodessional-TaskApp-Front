@@ -25,12 +25,12 @@ export default function Navbar() {
           <div className="flex items-center justify-center w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md cursor-pointer">
             <IoMdNotificationsOutline className="text-xl" />
           </div>
-          <Link
-            href="/dashboard/account"
+          <div
+            // href="/dashboard/account"
             className="flex items-center justify-center  w-[34px] h-[34px] text-[#f3f3f3] bg-red-500 rounded-md cursor-pointer"
           >
             <FaUserLarge className="text-md" />
-          </Link>
+          </div>
         </div>
 
         <div className="flex flex-col gap-[0.5px]">
