@@ -47,7 +47,7 @@ export default function Task({
   const minutes = Math.floor(milleseconds / (1000 * 60));
 
   return (
-    <div className="relative border max-w-[450px] w-full border-stone-400 rounded-xl min-h-[150px] px-[16px] py-[10px] flex gap-3 ">
+    <div className="relative border max-w-[350px] border-stone-400 rounded-xl min-h-[150px] p-2 flex gap-3 ">
       <div
         className={`w-3.75 h-3.75 rounded-full border-2  ${status === 'Not Started' ? 'border-red-500' : status === 'In Progress' ? 'border-purple-500' : 'border-green-500'} bg-white `}
       ></div>
