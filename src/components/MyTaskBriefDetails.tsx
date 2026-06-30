@@ -6,44 +6,56 @@ import { CgDetailsMore } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
 
 export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskType | undefined }) {
+  if (!activeTask) {
+    return (
+      <div className="flex h-full items-center justify-center text-stone-400 text-sm">
+        Tap on any task to view brief details
+      </div>
+    );
+  }
+
   return (
-    <div className="flex w-[600px] max-w-[700px] flex-col gap-7 h-full rounded-xl text-xl pt-[15px] pb-[20px] px-4 border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
-      {activeTask ? (
-        <>
-          <div className="w-full flex gap-5">
-            <div className="w-[170px] h-[170px] rounded-xl bg-stone-200"></div>
-            <div className="flex flex-col gap-4 justify-end">
-              <h2 className="text-md font-semibold">{activeTask?.title}</h2>
-              <div className="text-sm flex gap-1">
-                <div>Priority:</div>
-                <div className="text-red-500">{activeTask?.priority.title}</div>
-              </div>
-              <div className="text-sm flex gap-1">
-                <div>Status:</div>
-                <div className="text-red-500">{activeTask?.status.title}</div>
-              </div>
-              <div className="text-sm flex gap-1 text-stone-400">
-                <div>Created on</div>
-                <div>{activeTask?.createdAt && format(new Date(activeTask?.createdAt), 'dd/MM/yyyy')}</div>
-              </div>
-            </div>
+    <div className="flex flex-col h-full p-6 gap-6">
+      {/* Fixed: image + meta */}
+      <div className="shrink-0 flex gap-5">
+        <div className="shrink-0 w-[170px] h-[170px] rounded-xl bg-stone-200" />
+        <div className="flex flex-col gap-3 justify-end">
+          <h2 className="text-sm font-semibold">{activeTask.title}</h2>
+          <div className="text-xs flex gap-1">
+            <span className="text-stone-500">Priority:</span>
+            <span className="text-red-500">{activeTask.priority.title}</span>
           </div>
-          <div className="text-[18px] leading-[1.7] text-stone-600 overflow-y-auto">{activeTask?.description}</div>
-          <div className="flex gap-3 mt-auto justify-end">
-            <div role="button" className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center">
-              <FaTrash className="w-[18px] h-[18px] text-white" />
-            </div>
-            <Link
-              href={`/dashboard/mytask/${activeTask?.id}`}
-              className="w-[36px] h-[36px] rounded-md bg-red-500 flex items-center justify-center"
-            >
-              <CgDetailsMore className="w-[18px] h-[18px] text-white" />
-            </Link>
+          <div className="text-xs flex gap-1">
+            <span className="text-stone-500">Status:</span>
+            <span className="text-red-500">{activeTask.status.title}</span>
           </div>
-        </>
-      ) : (
-        'Tap on any task to view brief details'
-      )}
+          <div className="text-xs flex gap-1 text-stone-400">
+            <span>Created on</span>
+            <span>{format(new Date(activeTask.createdAt), 'dd/MM/yyyy')}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Scrollable: description */}
+      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+        <p className="text-sm leading-relaxed text-stone-600 break-words">{activeTask.description}</p>
+      </div>
+
+      {/* Fixed: action buttons */}
+      <div className="shrink-0 flex gap-3 justify-end">
+        <button
+          type="button"
+          className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
+        >
+          <FaTrash className="w-4 h-4 text-white" />
+        </button>
+        <Link
+          href={`/dashboard/mytask/${activeTask.id}`}
+          className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
+        >
+          <CgDetailsMore className="w-4 h-4 text-white" />
+        </Link>
+      </div>
     </div>
   );
 }

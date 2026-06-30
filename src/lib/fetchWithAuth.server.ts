@@ -19,8 +19,6 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}): Pro
   const res = await fetch(url, { ...options, headers });
 
   if (res.status === 401) {
-    // Middleware artıq proaktiv refresh etməli idi.
-    // Yenə 401 gəlirsə, session həqiqətən invaliddir.
     redirect('/login');
   }
 

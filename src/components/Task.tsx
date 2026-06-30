@@ -39,7 +39,7 @@ export default function Task({
     getDataStatusPriority();
   }, []);
 
-  if (loading) return <div>Yüklənir...</div>;
+  if (loading) return <div>Loading...</div>;
 
   const milleseconds = Date.now() - new Date(task.createdAt).getTime();
   const day = Math.floor(milleseconds / (1000 * 60 * 60 * 24));
@@ -47,62 +47,83 @@ export default function Task({
   const minutes = Math.floor(milleseconds / (1000 * 60));
 
   return (
-    <div className="relative border max-w-[350px] border-stone-400 rounded-xl min-h-[150px] p-2 flex gap-3 ">
-      <div
-        className={`w-3.75 h-3.75 rounded-full border-2  ${status === 'Not Started' ? 'border-red-500' : status === 'In Progress' ? 'border-purple-500' : 'border-green-500'} bg-white `}
-      ></div>
-      <div onClick={() => onActiveTask?.(task)} className="flex flex-col gap-1.5 flex-1 min-w-0 cursor-pointer">
-        <p className="text-[18px] font-semibold">
-          {' '}
-          {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
-        </p>
-        <p className="text-sm text-stone-400 w-full break-words ">
-          {task.description.length > 20 ? `${task.description.slice(0, 45)}...` : task.description}
-        </p>
-        {completed && (
-          <>
-            <div className="flex gap-1 text-[10px] mt-auto">
-              <span>Status:</span>
-              <span className="text-green-500">{status}</span>
-            </div>
-            <p className="text-[10px] text-stone-400 ">
-              Completed {day === 1 ? `${day} days` : hours === 1 ? `${hours} hours` : `${minutes} minutes`} ago
-            </p>
-          </>
-        )}
-        {!completed && (
-          <div className="absolute bottom-2 right-2 left-2 flex gap-3 text-[10px] mt-auto items-center">
-            <div className="flex gap-1 text-nowrap ">
-              <span className="text-[#333]">Priority:</span>
-              <span
-                className={`${priority === 'Low' ? 'text-green-500' : priority === 'Moderate' ? 'text-blue-500' : priority === 'Extreme' ? 'text-red-500' : ''}`}
-              >
-                {priority}
-              </span>
-            </div>
-            <div className="flex gap-1 text-nowrap">
-              <span className="text-[#333]">Status:</span>
-              <span
-                className={`${status === 'Not Started' ? 'text-red-500' : status === 'In Progress' ? 'text-purple-500' : ''}`}
-              >
-                {status}
-              </span>
-            </div>
-            <div className="flex gap-1 text-nowrap text-stone-500">
-              <span>Created on:</span>
-              <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
-            </div>
-          </div>
-        )}
+    <div className="relative w-full border border-stone-300 rounded-xl p-3 flex flex-col gap-2">
+      <div className="flex items-start gap-2">
+        <div
+          className={`mt-1 shrink-0 w-3.5 h-3.5 rounded-full border-2 bg-white
+          ${status === 'Not Started' ? 'border-red-500' : status === 'In Progress' ? 'border-purple-500' : 'border-green-500'}`}
+        />
+
+        <div onClick={() => onActiveTask?.(task)} className="flex-1 min-w-0 cursor-pointer flex flex-col gap-1">
+          <p className="text-sm font-semibold truncate">
+            {task.title.length > 20 ? `${task.title.slice(0, 20)}...` : task.title}
+          </p>
+          <p className="text-xs text-stone-400 break-words">
+            {task.description.length > 45 ? `${task.description.slice(0, 45)}...` : task.description}
+          </p>
+        </div>
+
+        <div className="shrink-0 w-20 h-20 rounded-xl bg-stone-200 mr-5" />
       </div>
-      <div className="w-[88px] h-[88px] rounded-xl bg-stone-200 self-center ml-auto shrink-0 mr-4"></div>
+
+      {completed && (
+        <div className="flex flex-col gap-0.5 pl-5 text-[10px]">
+          <div className="flex gap-1">
+            <span>Status:</span>
+            <span className="text-green-500">{status}</span>
+          </div>
+          <p className="text-stone-400">
+            Completed{' '}
+            {day >= 1
+              ? `${day} day${day !== 1 ? 's' : ''}`
+              : hours >= 1
+                ? `${hours} hour${hours !== 1 ? 's' : ''}`
+                : `${minutes} minutes`}{' '}
+            ago
+          </p>
+        </div>
+      )}
+
+      {!completed && (
+        <div className="flex flex-wrap gap-x-3 gap-y-1 pl-5 text-[10px]">
+          <div className="flex gap-1">
+            <span className="text-stone-600">Priority:</span>
+            <span
+              className={
+                priority === 'Low'
+                  ? 'text-green-500'
+                  : priority === 'Moderate'
+                    ? 'text-blue-500'
+                    : priority === 'Extreme'
+                      ? 'text-red-500'
+                      : ''
+              }
+            >
+              {priority}
+            </span>
+          </div>
+          <div className="flex gap-1">
+            <span className="text-stone-600">Status:</span>
+            <span
+              className={status === 'Not Started' ? 'text-red-500' : status === 'In Progress' ? 'text-purple-500' : ''}
+            >
+              {status}
+            </span>
+          </div>
+          <div className="flex gap-1 text-stone-400">
+            <span>Created on:</span>
+            <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
+          </div>
+        </div>
+      )}
+
       <button
         onClick={() => setTogglePopAction(!togglePopAction)}
-        className="absolute top-2 right-2 flex gap-[1.1px] cursor-pointer "
+        className="absolute top-2 right-2 flex gap-[1.1px] cursor-pointer"
       >
-        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full"></span>
-        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full"></span>
-        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full"></span>
+        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full" />
+        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full" />
+        <span className="w-[5px] h-[5px] bg-stone-400 rounded-full" />
       </button>
 
       {togglePopAction && <PopAction task={task} />}

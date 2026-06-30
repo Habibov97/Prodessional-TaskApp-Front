@@ -1,11 +1,15 @@
 import { z } from 'zod';
 
 export const addTaskSchema = z.object({
-  title: z.string().trim().min(5, 'Title must be minimum 5 symbol').max(100, 'Title 100 simvoldan çox ola bilməz'),
+  title: z
+    .string()
+    .trim()
+    .min(5, 'Title must be minimum 5 symbol')
+    .max(100, 'Title cannot be more then 100 characters'),
 
-  priorityId: z.uuid('Must choose Priority'),
+  priorityId: z.uuid('Priority must be selected'),
 
-  statusId: z.uuid('Status seçilməlidir'),
+  statusId: z.uuid('Status must be selected'),
 
   description: z
     .string()
