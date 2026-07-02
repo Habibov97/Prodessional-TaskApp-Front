@@ -1,4 +1,5 @@
 'use client';
+import { deleteTaskAction } from '@/actions/taskdelete.action.';
 import { TaskType } from '@/types/task.types';
 import { format } from 'date-fns';
 import Link from 'next/link';
@@ -36,15 +37,14 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
         </div>
       </div>
 
-      {/* Scrollable: description */}
       <div className="flex-1 min-h-0 overflow-y-auto pr-1">
         <p className="text-sm leading-relaxed text-stone-600 break-words">{activeTask.description}</p>
       </div>
 
-      {/* Fixed: action buttons */}
-      <div className="shrink-0 flex gap-3 justify-end">
+      <form action={deleteTaskAction} className="shrink-0 flex gap-3 justify-end">
+        <input hidden type="text" name="taskId" defaultValue={String(activeTask.id)} />
         <button
-          type="button"
+          type="submit"
           className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
         >
           <FaTrash className="w-4 h-4 text-white" />
@@ -55,7 +55,7 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
         >
           <CgDetailsMore className="w-4 h-4 text-white" />
         </Link>
-      </div>
+      </form>
     </div>
   );
 }

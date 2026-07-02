@@ -44,7 +44,7 @@ export default async function DashboardLayout({
     >
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="mt-13 flex ">
+        <main className="mt-13 flex">
           <DashboardNavigation />
           {children}
         </main>

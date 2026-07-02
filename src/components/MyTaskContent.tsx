@@ -10,7 +10,7 @@ export default function MyTaskContent({ myTasks }: { myTasks: TaskType[] }) {
 
   return (
     <section className="px-[76px] py-6">
-      <main className="grid grid-cols-[1fr_2fr] grid-rows-1 gap-4 h-[80dvh]">
+      <main className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] grid-rows-1 gap-4 h-[80dvh]">
         <div className="flex flex-col rounded-xl border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
           <div className="shrink-0 px-6 pt-5 pb-3">
             <h2 className="relative text-sm font-semibold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500">
@@ -24,7 +24,6 @@ export default function MyTaskContent({ myTasks }: { myTasks: TaskType[] }) {
           </div>
         </div>
 
-        {/* Right: brief detail panel */}
         <div className="rounded-xl border border-stone-200 shadow-[0_0_15px_rgba(0,0,0,0.1)] overflow-hidden">
           <MyTaskBriefDetails activeTask={activeTask} />
         </div>
