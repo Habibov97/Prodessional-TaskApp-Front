@@ -1,8 +1,9 @@
 import GoBack from '@/components/GoBack';
 import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
-import { FaTrash } from 'react-icons/fa';
-import { PiNotePencilDuotone } from 'react-icons/pi';
+// import { FaTrash } from 'react-icons/fa';
+// import { PiNotePencilDuotone } from 'react-icons/pi';
 import { format } from 'date-fns';
+import AddTaskModal from '@/components/AddTaskModal';
 
 export default async function TaskDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -10,7 +11,7 @@ export default async function TaskDetails({ params }: { params: Promise<{ id: st
   const { data } = await res.json();
 
   return (
-    <section className="px-[76px]">
+    <section className="px-[76px] min-w-[1200px]">
       <main className="grid grid-rows-[auto_minmax(0,1fr)_auto] gap-5 border rounded-md shadow-[0_0_5px_rgba(0,0,0,0.08)] p-[26px] mb-[26px] h-[76dvh]">
         <div className="flex gap-5 items-start">
           <div className="w-[170px] h-[170px] rounded-xl bg-stone-200 shrink-0" />
@@ -43,12 +44,7 @@ export default async function TaskDetails({ params }: { params: Promise<{ id: st
           >
             <FaTrash className="w-[18px] h-[18px] text-white" />
           </button> */}
-          <button
-            type="button"
-            className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
-          >
-            <PiNotePencilDuotone className="w-[18px] h-[18px] text-white" />
-          </button>
+          <AddTaskModal updateTask={data} />
         </div>
       </main>
     </section>

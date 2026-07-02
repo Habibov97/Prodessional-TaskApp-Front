@@ -5,7 +5,7 @@ import { dashboardNavMocks } from '../mocks/dashboardNavigation.mocks';
 
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { logoutAction } from '@/actions/auth.action';
+import { logoutAction } from '@/actions/auth.actions';
 
 export default function DashboardNavigation() {
   const pathName = usePathname();

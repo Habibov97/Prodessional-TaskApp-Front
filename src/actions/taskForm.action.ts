@@ -6,7 +6,10 @@ import { revalidatePath } from 'next/cache';
 
 const backendUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export async function addTaskAction(prevState: AddTaskFormState, formData: FormData): Promise<AddTaskFormState> {
+export async function taskFormAction(prevState: AddTaskFormState, formData: FormData): Promise<AddTaskFormState> {
+  const taskId = (formData.get('taskId') as string) || null;
+  const isUpdate = !!taskId;
+
   const raw = {
     title: formData.get('title'),
     priorityId: formData.get('priorityId'),
@@ -17,26 +20,20 @@ export async function addTaskAction(prevState: AddTaskFormState, formData: FormD
 
   const parsed = addTaskSchema.safeParse(raw);
   if (!parsed.success) {
-    return {
-      errors: parsed.error.flatten().fieldErrors,
-      success: false,
-    };
+    return { errors: parsed.error.flatten().fieldErrors, success: false };
   }
 
   try {
-    const res = await fetchWithAuth(`${backendUrl}/task`, {
-      method: 'POST',
+    const res = await fetchWithAuth(`${backendUrl}/task${isUpdate ? `/${taskId}` : ''}`, {
+      method: isUpdate ? 'PATCH' : 'POST',
       body: JSON.stringify(parsed.data),
     });
 
-    if (!res.ok) {
-      return { success: false, message: 'Server error' };
-    }
+    if (!res.ok) return { success: false, message: 'Server error' };
 
-    revalidatePath('/dashboard');
-
-    return { success: true, message: 'Task has been added' };
-  } catch (err) {
+    revalidatePath('/dashboard', 'layout');
+    return { success: true, message: isUpdate ? 'Task has been updated' : 'Task has been added' };
+  } catch {
     return { success: false, message: 'Something went wrong' };
   }
 }
