@@ -5,8 +5,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/sonner';
 import Navbar from '@/components/Navbar';
 import DashboardNavigation from '@/components/DashboardNavigation';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -30,12 +29,8 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const cookieStore = await cookies();
-  // const refreshToken = cookieStore.get('refreshToken');
-
-  // if (!refreshToken?.value) {
-  //   return redirect('/login');
-  // }
+  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/user/me`);
+  const data = await res.json();
 
   return (
     <html
@@ -45,7 +40,7 @@ export default async function DashboardLayout({
       <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="mt-13 flex">
-          <DashboardNavigation />
+          <DashboardNavigation data={data} />
           {children}
         </main>
         <Toaster />
