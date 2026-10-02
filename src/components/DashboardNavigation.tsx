@@ -19,14 +19,14 @@ export default function DashboardNavigation({ user, onNavigate }: { user: UserTy
   const LogoutIcon = logout?.icon;
 
   return (
-    <nav className="flex h-full flex-col gap-6 rounded-r-2xl bg-red-500/90 px-4 py-6 text-white xl:px-5">
+    <nav className="flex h-full flex-col gap-6 rounded-r-2xl bg-red-500/90 px-4 py-6 text-white xl:px-5 dark:border-r dark:border-border dark:bg-card dark:text-foreground">
       <div className="flex flex-col items-center gap-3 text-center">
-        <UserAvatar user={user} className="size-20 text-2xl ring-4 ring-white/40" />
+        <UserAvatar user={user} className="size-20 text-2xl ring-4 ring-white/40 dark:ring-red-500/40" />
         <div className="min-w-0 max-w-full">
           <p className="truncate font-bold">
             {user?.firstName} {user?.lastName}
           </p>
-          <p className="truncate text-sm text-white/80">{user?.email}</p>
+          <p className="truncate text-sm text-white/80 dark:text-muted-foreground">{user?.email}</p>
         </div>
       </div>
 
@@ -42,7 +42,9 @@ export default function DashboardNavigation({ user, onNavigate }: { user: UserTy
               aria-current={active ? 'page' : undefined}
               className={cn(
                 'flex items-center gap-3 rounded-xl px-5 py-3 transition-colors',
-                active ? 'bg-white text-red-500' : 'hover:bg-white/15',
+                active
+                  ? 'bg-white text-red-500 dark:bg-red-500/15 dark:text-red-400'
+                  : 'hover:bg-white/15 dark:text-foreground/80 dark:hover:bg-muted dark:hover:text-foreground',
               )}
             >
               <Icon size={22} className="shrink-0" />
@@ -56,7 +58,7 @@ export default function DashboardNavigation({ user, onNavigate }: { user: UserTy
         <form action={logoutAction}>
           <button
             type="submit"
-            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-5 py-3 transition-colors hover:bg-white/15"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-5 py-3 transition-colors hover:bg-white/15 dark:text-foreground/80 dark:hover:bg-muted dark:hover:text-foreground"
           >
             <LogoutIcon size={22} className="shrink-0" />
             <span>{logout.title}</span>
