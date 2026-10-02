@@ -17,10 +17,10 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from './ui/field';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
 import { FieldError } from './FieldError';
 import { textValues } from '@/lib/form-values';
 import TaskImage from './TaskImage';
+import RichTextEditor from './RichTextEditor';
 import { IMAGE_TYPES } from '@/validations/addTask.validation';
 import { taskFormAction } from '@/actions/task.actions';
 import { NOT_STARTED, priorityTone, statusTone, titleKey, type Tone } from '@/constants/task.constants';
@@ -164,16 +164,15 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="description" className="font-bold text-[#333]">
+            <FieldLabel id="description-label" className="font-bold text-[#333]">
               Task Description
             </FieldLabel>
-            <Textarea
-              id="description"
+            <RichTextEditor
               name="description"
-              className="custom-scrollbar h-[160px] resize-none pr-3"
+              labelId="description-label"
               placeholder="Start writing here..."
               defaultValue={state.values?.description ?? updateTask?.description ?? ''}
-              aria-invalid={!!state.errors?.description}
+              invalid={!!state.errors?.description}
             />
             <FieldError errors={state.errors?.description} />
           </Field>

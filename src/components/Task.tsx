@@ -6,6 +6,7 @@ import { isCompletedStatus, priorityTone, statusTone } from '@/constants/task.co
 import type { TaskType } from '@/types/task.types';
 import TaskActionsMenu from './TaskActionsMenu';
 import TaskImage from './TaskImage';
+import { htmlToPlainText } from '@/lib/rich-text';
 import DueBadge from './DueBadge';
 
 type Props = {
@@ -27,7 +28,7 @@ export default function Task({ task, onSelect, active = false }: Props) {
 
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <p className="truncate text-sm font-semibold text-[#333]">{task.title}</p>
-          <p className="line-clamp-2 text-xs break-words text-stone-400">{task.description}</p>
+          <p className="line-clamp-2 text-xs break-words text-stone-400">{htmlToPlainText(task.description)}</p>
         </div>
 
         <TaskImage src={task.avatar} alt="" className="hidden size-16 rounded-lg sm:flex" />

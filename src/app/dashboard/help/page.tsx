@@ -12,6 +12,11 @@ const TOPICS = [
       'Open the Dashboard and press "Add Task" in the To-Do card. Give it a name, a priority and a description. A due date and an image are optional. New tasks always start as "Not Started".',
   },
   {
+    question: 'How do I format a description?',
+    answer:
+      'Use the toolbar above the description: bold, italic, underline, strikethrough, inline code, headings, bullet and numbered lists, quotes and code blocks. Shortcuts work too (Ctrl+B, Ctrl+I, Ctrl+U). Tab inserts a tab, or indents a list item. A code block keeps every space and line break exactly as typed.',
+  },
+  {
     question: 'How do I change a task?',
     answer:
       'Open the task (click it, or use "View details" from its ••• menu) and press the pencil button. There you can edit every field, change the status, set or clear the due date and replace or remove the image.',

@@ -152,3 +152,77 @@
     background-color: var(--color-stone-400);
   }
 }
+
+/* Task descriptions: shared by the editor and the rendered view */
+@layer components {
+  .rich-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-stone-700);
+    overflow-wrap: anywhere;
+    tab-size: 4;
+  }
+  .rich-text > * + * {
+    margin-top: 0.6em;
+  }
+  .rich-text p,
+  .rich-text li {
+    white-space: pre-wrap;
+  }
+  .rich-text h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #333;
+  }
+  .rich-text h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+  .rich-text strong,
+  .rich-text b {
+    font-weight: 700;
+    color: #333;
+  }
+  .rich-text ul {
+    list-style: disc;
+    padding-left: 1.4em;
+  }
+  .rich-text ol {
+    list-style: decimal;
+    padding-left: 1.6em;
+  }
+  .rich-text li > p {
+    margin: 0;
+  }
+  .rich-text li + li {
+    margin-top: 0.2em;
+  }
+  .rich-text blockquote {
+    border-left: 3px solid var(--color-red-300);
+    padding-left: 0.9em;
+    color: var(--color-stone-500);
+    font-style: italic;
+  }
+  .rich-text code {
+    border-radius: 0.3em;
+    background: var(--color-stone-100);
+    padding: 0.1em 0.35em;
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 0.85em;
+    color: var(--color-red-600);
+  }
+  .rich-text pre {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    background: var(--color-stone-800);
+    padding: 0.75em 1em;
+    white-space: pre;
+  }
+  .rich-text pre code {
+    background: none;
+    padding: 0;
+    color: var(--color-stone-100);
+    font-size: 0.8rem;
+  }
+}

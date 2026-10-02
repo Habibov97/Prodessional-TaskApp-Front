@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { htmlToPlainText } from '@/lib/rich-text';
 
 export const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 export const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -14,11 +15,12 @@ export const addTaskSchema = z.object({
 
   statusId: z.uuid('Status must be selected'),
 
+  // Rich text: the length rules count the visible text, not the markup.
   description: z
     .string()
-    .trim()
-    .min(10, 'Description must be minimum 10 symbol')
-    .max(2000, 'Description cannot be more than 2000 characters'),
+    .max(20000, 'Description is too long')
+    .refine((html) => htmlToPlainText(html).length >= 10, 'Description must be minimum 10 symbol')
+    .refine((html) => htmlToPlainText(html).length <= 2000, 'Description cannot be more than 2000 characters'),
 
   // Empty input clears the due date
   dueDate: z

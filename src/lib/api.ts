@@ -4,6 +4,10 @@ import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 import type { CategoryEntity } from '@/types/category.types';
 import type { TaskType } from '@/types/task.types';
 import type { UserType } from '@/types/user.types';
+import { toSafeHtml } from '@/lib/rich-text.server';
+
+// Descriptions reach the browser as sanitized HTML, ready to render.
+const withSafeDescription = (task: TaskType): TaskType => ({ ...task, description: toSafeHtml(task.description) });
 import { PRIORITY_ORDER, STATUS_ORDER, sortByTitleOrder } from '@/constants/task.constants';
 
 // Wrapped in React `cache` so several components rendering in the same
@@ -21,14 +25,14 @@ export const getTasks = cache(async (search?: string): Promise<TaskType[]> => {
   const res = await fetchWithAuth(`${API_URL}/task${query}`);
   if (!res.ok) return [];
   const data = await res.json();
-  return data.data ?? [];
+  return ((data.data ?? []) as TaskType[]).map(withSafeDescription);
 });
 
 export const getTask = cache(async (id: string): Promise<TaskType | null> => {
   const res = await fetchWithAuth(`${API_URL}/task/${encodeURIComponent(id)}`);
   if (!res.ok) return null;
   const data = await res.json();
-  return data.data ?? null;
+  return data.data ? withSafeDescription(data.data) : null;
 });
 
 export type TaskCategories = {
