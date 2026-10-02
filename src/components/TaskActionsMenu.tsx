@@ -38,7 +38,7 @@ export default function TaskActionsMenu({ task, className }: { task: TaskType; c
             aria-label="Task actions"
             disabled={isPending}
             className={cn(
-              'flex size-7 cursor-pointer items-center justify-center rounded-md text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700 disabled:opacity-50',
+              'flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50',
               className,
             )}
           >

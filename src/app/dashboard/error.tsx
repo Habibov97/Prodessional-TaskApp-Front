@@ -16,8 +16,8 @@ export default function DashboardError({
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border px-4 py-16 text-center">
-      <h2 className="text-xl font-semibold text-[#333]">Something went wrong</h2>
-      <p className="max-w-sm text-sm text-stone-500">
+      <h2 className="text-xl font-semibold text-foreground">Something went wrong</h2>
+      <p className="max-w-sm text-sm text-muted-foreground">
         We could not load this page. The server may be waking up, so trying again usually helps.
       </p>
       <div className="flex gap-2">

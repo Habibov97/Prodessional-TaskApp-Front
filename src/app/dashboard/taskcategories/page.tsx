@@ -30,14 +30,14 @@ export default async function TaskCategories() {
       </div>
 
       {!isAdmin && (
-        <p className="rounded-lg bg-stone-50 px-4 py-3 text-sm text-stone-500 ring-1 ring-stone-200">
+        <p className="rounded-lg bg-muted px-4 py-3 text-sm text-muted-foreground ring-1 ring-border">
           Categories are shared by everyone and can only be changed by an admin.
         </p>
       )}
 
       {sections.map((section, index) => (
         <div key={section.title} className="flex flex-col gap-5">
-          {index > 0 && <div className="h-px w-full bg-stone-300" />}
+          {index > 0 && <div className="h-px w-full bg-border" />}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="relative pb-1 font-bold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-[50px] after:bg-green-500">
               {section.title}
@@ -48,21 +48,21 @@ export default async function TaskCategories() {
           <div className="overflow-x-auto rounded-md border">
             <Table className={cn(isAdmin && 'min-w-[420px]')}>
               <TableHeader>
-                <TableRow className="h-12 bg-stone-100">
-                  <TableHead className="w-16 text-center font-bold text-stone-700">SN</TableHead>
-                  <TableHead className="text-center font-bold text-stone-700">{section.title}</TableHead>
-                  {isAdmin && <TableHead className="w-[200px] text-center font-bold text-stone-700">Action</TableHead>}
+                <TableRow className="h-12 bg-muted">
+                  <TableHead className="w-16 text-center font-bold text-foreground/80">SN</TableHead>
+                  <TableHead className="text-center font-bold text-foreground/80">{section.title}</TableHead>
+                  {isAdmin && <TableHead className="w-[200px] text-center font-bold text-foreground/80">Action</TableHead>}
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {section.items.map((item, i) => (
                   <TableRow key={item.id} className="h-16">
-                    <TableCell className="text-center font-medium text-stone-600">{i + 1}</TableCell>
-                    <TableCell className="text-center text-stone-600">{item.title}</TableCell>
+                    <TableCell className="text-center font-medium text-foreground/80">{i + 1}</TableCell>
+                    <TableCell className="text-center text-foreground/80">{item.title}</TableCell>
                     {isAdmin && (
                       <TableCell>
                         {isProtectedCategory(item.title) ? (
-                          <p className="text-center text-xs text-stone-400">System status</p>
+                          <p className="text-center text-xs text-muted-foreground">System status</p>
                         ) : (
                           <div className="flex items-center justify-center gap-2">
                             <CategoryFormDialog

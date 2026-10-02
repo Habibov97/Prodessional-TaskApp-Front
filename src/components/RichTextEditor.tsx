@@ -129,11 +129,11 @@ export default function RichTextEditor({ name, defaultValue = '', labelId, place
       <div
         role="toolbar"
         aria-label="Formatting"
-        className="flex flex-wrap items-center gap-0.5 border-b border-stone-200 bg-stone-50 px-1.5 py-1"
+        className="flex flex-wrap items-center gap-0.5 border-b border-border bg-muted px-1.5 py-1"
       >
         {TOOL_GROUPS.map((group, groupIndex) => (
           <div key={groupIndex} className="flex items-center gap-0.5">
-            {groupIndex > 0 && <span className="mx-1 h-5 w-px bg-stone-200" aria-hidden />}
+            {groupIndex > 0 && <span className="mx-1 h-5 w-px bg-muted" aria-hidden />}
             {group.map((tool) => {
               const state = active?.[index++];
               const Icon = tool.icon;
@@ -149,7 +149,7 @@ export default function RichTextEditor({ name, defaultValue = '', labelId, place
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={() => editor && tool.run(editor)}
                   className={cn(
-                    'flex size-8 cursor-pointer items-center justify-center rounded-md text-stone-600 transition-colors hover:bg-stone-200 hover:text-stone-900 disabled:cursor-not-allowed disabled:opacity-40',
+                    'flex size-8 cursor-pointer items-center justify-center rounded-md text-foreground/80 transition-colors hover:bg-muted hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40',
                     state?.active && 'bg-red-100 text-red-600 hover:bg-red-100 hover:text-red-700',
                   )}
                 >

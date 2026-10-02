@@ -31,7 +31,7 @@ export default function NotificationsMenu({ tasks }: { tasks: TaskType[] }) {
         >
           <IoMdNotificationsOutline className="text-xl" />
           {items.length > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-[#333] px-1 text-[10px] font-semibold text-white ring-2 ring-[#f8f8f8]">
+            <span className="absolute -top-1.5 -right-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-semibold text-background ring-2 ring-muted">
               {items.length > 9 ? '9+' : items.length}
             </span>
           )}
@@ -40,11 +40,11 @@ export default function NotificationsMenu({ tasks }: { tasks: TaskType[] }) {
       <DropdownMenuContent align="end" className="w-80 max-w-[calc(100vw-2rem)] p-0">
         <div className="border-b px-4 py-3">
           <p className="text-sm font-semibold">Notifications</p>
-          <p className="text-xs text-stone-500">Open tasks that are overdue or due soon</p>
+          <p className="text-xs text-muted-foreground">Open tasks that are overdue or due soon</p>
         </div>
         <div className="custom-scrollbar max-h-80 overflow-y-auto p-1">
           {items.length === 0 ? (
-            <p className="px-3 py-6 text-center text-sm text-stone-400">You&apos;re all caught up 🎉</p>
+            <p className="px-3 py-6 text-center text-sm text-muted-foreground">You&apos;re all caught up 🎉</p>
           ) : (
             items.map(({ task, state }) => (
               <DropdownMenuItem key={task.id} asChild className="items-start">

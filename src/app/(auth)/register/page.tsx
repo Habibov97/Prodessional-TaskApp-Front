@@ -27,13 +27,13 @@ export default function Register() {
   }, {});
 
   return (
-    <div className="flex w-full max-w-[900px] flex-col overflow-hidden rounded-2xl bg-[#f5f5f5] shadow-2xl md:min-h-[650px] md:flex-row">
+    <div className="flex w-full max-w-[900px] flex-col overflow-hidden rounded-2xl bg-card shadow-2xl md:min-h-[650px] md:flex-row">
       <div
         className="hidden bg-contain bg-center bg-no-repeat md:block md:h-[460px] md:w-[40%] md:self-end"
         style={{ backgroundImage: `url(${RegisterBgPic.src})` }}
       />
       <div className="flex w-full flex-col justify-center gap-6 p-6 sm:p-10 md:w-[60%] md:pl-4">
-        <h1 className="text-3xl font-bold text-[#333]">{authConstants.SIGNUP}</h1>
+        <h1 className="text-3xl font-bold text-foreground">{authConstants.SIGNUP}</h1>
         <form action={action} className="flex flex-col gap-4">
           <AuthInput
             id="firstname"

@@ -28,7 +28,7 @@ export default function ChangePasswordForm() {
   }, {});
 
   return (
-    <form action={action} className="rounded-xl border border-stone-200 p-4 sm:p-6">
+    <form action={action} className="rounded-xl border border-border p-4 sm:p-6">
       <div className="flex w-full max-w-md flex-col gap-4">
         {FIELDS.map((field) => (
           <div key={field.name} className="flex flex-col gap-2">

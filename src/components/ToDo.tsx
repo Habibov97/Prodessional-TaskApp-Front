@@ -16,8 +16,8 @@ export default function ToDo({ tasks, categories }: { tasks: TaskType[]; categor
       className="lg:row-span-2"
       bodyClassName="flex flex-col"
     >
-      <p className="shrink-0 pb-3 text-xs text-stone-500">
-        <TodayDate pattern="d MMMM" /> <span className="text-stone-400">· Today</span>
+      <p className="shrink-0 pb-3 text-xs text-muted-foreground">
+        <TodayDate pattern="d MMMM" /> <span className="text-muted-foreground">· Today</span>
       </p>
       <div className="custom-scrollbar flex max-h-[60dvh] min-h-0 flex-1 flex-col gap-3 overflow-y-auto pr-2 lg:max-h-none">
         {tasks.length > 0 ? (

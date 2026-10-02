@@ -17,7 +17,7 @@ export default function SearchBar({ className }: { className?: string }) {
         placeholder="Search your task here..."
         aria-label="Search tasks"
         maxLength={100}
-        className="h-9 w-full rounded-md bg-white py-2 pr-11 pl-4 text-sm shadow-md outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+        className="h-9 w-full rounded-md bg-card py-2 pr-11 pl-4 text-sm shadow-md outline-none focus-visible:ring-2 focus-visible:ring-red-300"
       />
       <button
         type="submit"

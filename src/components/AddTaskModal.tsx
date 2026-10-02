@@ -52,7 +52,7 @@ export default function AddTaskModal({ categories, updateTask }: Props) {
         ) : (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-1 rounded-md px-1 text-sm text-stone-500 transition-colors hover:text-red-500"
+            className="flex cursor-pointer items-center gap-1 rounded-md px-1 text-sm text-muted-foreground transition-colors hover:text-red-500"
           >
             <HiOutlinePlusSmall className="size-5 text-red-500" />
             <span>Add Task</span>
@@ -113,10 +113,10 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
       {categoriesMissing && <p className="text-sm text-red-500">Could not load priority/status options.</p>}
       {state.message && !state.success && <p className="text-sm text-red-500">{state.message}</p>}
 
-      <div className="flex flex-col gap-6 rounded-xl border border-stone-200 p-4 sm:flex-row sm:p-6">
+      <div className="flex flex-col gap-6 rounded-xl border border-border p-4 sm:flex-row sm:p-6">
         <FieldGroup className="gap-5 sm:w-2/3">
           <Field>
-            <Label htmlFor="title" className="font-bold text-[#333]">
+            <Label htmlFor="title" className="font-bold text-foreground">
               Name
             </Label>
             <Input
@@ -129,7 +129,7 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
           </Field>
 
           <Field>
-            <Label className="font-bold text-[#333]">Priority</Label>
+            <Label className="font-bold text-foreground">Priority</Label>
             <CategoryRadioGroup
               name="priorityId"
               label="Priority"
@@ -142,7 +142,7 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
           </Field>
 
           <Field>
-            <Label className="font-bold text-[#333]">Status</Label>
+            <Label className="font-bold text-foreground">Status</Label>
             {isUpdate ? (
               <CategoryRadioGroup
                 name="statusId"
@@ -164,7 +164,7 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
           </Field>
 
           <Field>
-            <FieldLabel id="description-label" className="font-bold text-[#333]">
+            <FieldLabel id="description-label" className="font-bold text-foreground">
               Task Description
             </FieldLabel>
             <RichTextEditor
@@ -180,8 +180,8 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
 
         <FieldGroup className="gap-5 sm:w-1/3">
           <Field>
-            <Label htmlFor="dueDate" className="font-bold text-[#333]">
-              Due Date <span className="font-normal text-stone-400">(optional)</span>
+            <Label htmlFor="dueDate" className="font-bold text-foreground">
+              Due Date <span className="font-normal text-muted-foreground">(optional)</span>
             </Label>
             <Input
               id="dueDate"
@@ -219,14 +219,14 @@ function ImageField({ currentImage, errors }: { currentImage: string | null; err
 
   return (
     <Field>
-      <FieldLabel htmlFor="image" className="font-bold text-[#333]">
-        Image <span className="font-normal text-stone-400">(optional)</span>
+      <FieldLabel htmlFor="image" className="font-bold text-foreground">
+        Image <span className="font-normal text-muted-foreground">(optional)</span>
       </FieldLabel>
       <TaskImage src={shown} alt="Task image preview" className="aspect-square w-full max-w-[200px]" />
       <Input id="image" name="image" type="file" accept={IMAGE_TYPES.join(',')} onChange={handleChange} />
       <FieldDescription>JPG, PNG, WEBP or GIF, up to 5MB.</FieldDescription>
       {currentImage && !preview && (
-        <label className="flex cursor-pointer items-center gap-2 text-xs text-stone-600">
+        <label className="flex cursor-pointer items-center gap-2 text-xs text-foreground/80">
           <input
             type="checkbox"
             name="removeImage"

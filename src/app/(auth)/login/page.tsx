@@ -11,6 +11,7 @@ import { LoginFormState } from '@/types/login-formstate';
 import { submitLoginForm } from '@/actions/auth.actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import DemoLoginButton from '@/components/DemoLoginButton';
 
 export default function Login() {
   const router = useRouter();
@@ -26,13 +27,13 @@ export default function Login() {
   }, {});
 
   return (
-    <div className="flex w-full max-w-[900px] flex-col overflow-hidden rounded-2xl bg-[#f5f5f5] shadow-2xl md:min-h-[600px] md:flex-row-reverse">
+    <div className="flex w-full max-w-[900px] flex-col overflow-hidden rounded-2xl bg-card shadow-2xl md:min-h-[600px] md:flex-row-reverse">
       <div
         className="hidden bg-contain bg-center bg-no-repeat md:block md:h-[460px] md:w-1/2 md:self-end"
         style={{ backgroundImage: `url(${LoginBgPic.src})` }}
       />
       <div className="flex w-full flex-col justify-center gap-6 p-6 sm:p-10 md:w-1/2">
-        <h1 className="text-3xl font-bold text-[#333]">{authConstants.SIGNINTITLE}</h1>
+        <h1 className="text-3xl font-bold text-foreground">{authConstants.SIGNINTITLE}</h1>
         <form action={action} className="flex flex-col gap-4">
           <AuthInput
             id="username"
@@ -62,6 +63,12 @@ export default function Login() {
             {isLoading ? 'Loading...' : authConstants.LOGIN}
           </Button>
         </form>
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          or
+          <span className="h-px flex-1 bg-border" />
+        </div>
+        <DemoLoginButton />
         <p>
           {authConstants.DONTHAVEANACCOUNT}{' '}
           <Link className="text-blue-500 hover:underline" href="/register">

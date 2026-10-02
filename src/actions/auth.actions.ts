@@ -84,26 +84,47 @@ export async function submitLoginForm(previousState: LoginFormState, formData: F
     return { userName: raw.userName, errors: { message: await readFormError(response) } };
   }
 
-  const cookieStore = await cookies();
-  const setCookie = response.headers.get('set-cookie');
-
-  if (setCookie) {
-    cookieStore.set('refreshToken', extractCookieValue(setCookie, 'refreshToken'), {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 14 * 24 * 60 * 60,
-    });
-
-    cookieStore.set('accessToken', extractCookieValue(setCookie, 'accessToken'), {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 1 * 24 * 60 * 60,
-    });
-  }
+  await storeSessionCookies(response);
 
   return { userName: raw.userName, errors: {}, success: true };
+}
+
+/** Copies the tokens from the backend's Set-Cookie header onto this domain. */
+async function storeSessionCookies(response: Response) {
+  const setCookie = response.headers.get('set-cookie');
+  if (!setCookie) return;
+
+  const cookieStore = await cookies();
+  cookieStore.set('refreshToken', extractCookieValue(setCookie, 'refreshToken'), {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: 14 * 24 * 60 * 60,
+  });
+
+  cookieStore.set('accessToken', extractCookieValue(setCookie, 'accessToken'), {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    maxAge: 1 * 24 * 60 * 60,
+  });
+}
+
+export type DemoLoginState = { error?: string };
+
+/** Signs in to a fresh demo account that comes with sample tasks. */
+export async function demoLoginAction(): Promise<DemoLoginState> {
+  let response: Response;
+  try {
+    response = await fetch(`${API_URL}/auth/demo`, { method: 'POST' });
+  } catch {
+    return { error: 'Could not reach the server, please try again' };
+  }
+
+  if (!response.ok) return { error: await readFormError(response) };
+
+  await storeSessionCookies(response);
+  redirect('/dashboard');
 }
 
 export async function logoutAction() {

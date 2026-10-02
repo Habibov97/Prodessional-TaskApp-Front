@@ -44,7 +44,7 @@ export default function CategoryFormDialog({ kind, parentId, category }: Props) 
         ) : (
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-1 text-sm text-stone-500 transition-colors hover:text-stone-700"
+            className="flex cursor-pointer items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <HiOutlinePlusSmall className="size-5 text-green-500" />
             {titleText}
@@ -81,9 +81,9 @@ function CategoryForm({ kind, parentId, category, onSuccess }: Props & { onSucce
     <form action={action} className="flex flex-col gap-6">
       {category && <input type="hidden" name="id" value={category.id} />}
       <input type="hidden" name="parentId" value={parentId} />
-      <div className="rounded-xl border border-stone-200 p-4 sm:p-6">
+      <div className="rounded-xl border border-border p-4 sm:p-6">
         <Field>
-          <Label htmlFor="category-title" className="font-bold text-[#333]">
+          <Label htmlFor="category-title" className="font-bold text-foreground">
             Task {kind} Title
           </Label>
           <Input

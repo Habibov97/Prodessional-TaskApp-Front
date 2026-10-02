@@ -11,8 +11,8 @@ export default function EmptyState({
 }) {
   return (
     <div className={cn('flex flex-col items-center justify-center gap-1 px-4 py-10 text-center', className)}>
-      <p className="text-sm font-medium text-stone-500">{title}</p>
-      {description && <p className="text-xs text-stone-400">{description}</p>}
+      <p className="text-sm font-medium text-muted-foreground">{title}</p>
+      {description && <p className="text-xs text-muted-foreground">{description}</p>}
     </div>
   );
 }

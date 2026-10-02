@@ -24,11 +24,11 @@ export default function Task({ task, onSelect, active = false }: Props) {
   const body = (
     <>
       <div className="flex items-start gap-3">
-        <span className={cn('mt-1 size-3.5 shrink-0 rounded-full border-2 bg-white', status.border)} />
+        <span className={cn('mt-1 size-3.5 shrink-0 rounded-full border-2 bg-card', status.border)} />
 
         <div className="flex min-w-0 flex-1 flex-col gap-1">
-          <p className="truncate text-sm font-semibold text-[#333]">{task.title}</p>
-          <p className="line-clamp-2 text-xs break-words text-stone-400">{htmlToPlainText(task.description)}</p>
+          <p className="truncate text-sm font-semibold text-foreground">{task.title}</p>
+          <p className="line-clamp-2 text-xs break-words text-muted-foreground">{htmlToPlainText(task.description)}</p>
         </div>
 
         <TaskImage src={task.avatar} alt="" className="hidden size-16 rounded-lg sm:flex" />
@@ -37,25 +37,25 @@ export default function Task({ task, onSelect, active = false }: Props) {
       {completed ? (
         <div className="flex flex-col gap-0.5 pl-6.5 text-[11px]">
           <div className="flex gap-1">
-            <span className="text-stone-600">Status:</span>
+            <span className="text-foreground/80">Status:</span>
             <span className={status.text}>{task.status?.title}</span>
           </div>
           {/* Tasks completed before completedAt existed fall back to updatedAt */}
-          <p className="text-stone-400" suppressHydrationWarning>
+          <p className="text-muted-foreground" suppressHydrationWarning>
             Completed {formatDistanceToNow(new Date(task.completedAt ?? task.updatedAt), { addSuffix: true })}
           </p>
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pl-6.5 text-[11px]">
           <div className="flex gap-1">
-            <span className="text-stone-600">Priority:</span>
+            <span className="text-foreground/80">Priority:</span>
             <span className={priority.text}>{task.priority?.title}</span>
           </div>
           <div className="flex gap-1">
-            <span className="text-stone-600">Status:</span>
+            <span className="text-foreground/80">Status:</span>
             <span className={status.text}>{task.status?.title}</span>
           </div>
-          <div className="flex gap-1 text-stone-400">
+          <div className="flex gap-1 text-muted-foreground">
             <span>Created on:</span>
             <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
           </div>
@@ -70,8 +70,8 @@ export default function Task({ task, onSelect, active = false }: Props) {
   return (
     <article
       className={cn(
-        'relative shrink-0 rounded-xl border bg-white transition-colors hover:border-stone-300',
-        active ? 'border-red-300 ring-1 ring-red-200' : 'border-stone-200',
+        'relative shrink-0 rounded-xl border bg-card transition-colors hover:border-foreground/20',
+        active ? 'border-red-300 ring-1 ring-red-200' : 'border-border',
       )}
     >
       {onSelect ? (

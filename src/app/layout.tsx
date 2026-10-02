@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/sonner';
+import ThemeProvider from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -25,10 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn('h-full antialiased font-sans', inter.variable, geistMono.variable)}>
+    // next-themes sets the theme class on <html> before React hydrates.
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn('h-full antialiased font-sans', inter.variable, geistMono.variable)}
+    >
       <body className="min-h-full">
-        {children}
-        <Toaster position="top-right" theme="light" />
+        <ThemeProvider>
+          {children}
+          <Toaster position="top-right" />
+        </ThemeProvider>
       </body>
     </html>
   );

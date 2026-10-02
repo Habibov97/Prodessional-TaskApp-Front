@@ -14,7 +14,7 @@ export default function MobileNavigation({ user }: { user: UserType | null }) {
         <button
           type="button"
           aria-label="Open navigation"
-          className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md text-[#333] hover:bg-stone-200 lg:hidden"
+          className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-md text-foreground hover:bg-muted lg:hidden"
         >
           <HiOutlineMenuAlt2 className="size-6" />
         </button>
