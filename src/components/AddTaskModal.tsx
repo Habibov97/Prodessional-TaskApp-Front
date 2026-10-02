@@ -13,12 +13,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from './ui/button';
-import { Field, FieldGroup, FieldLabel } from './ui/field';
+import { Field, FieldDescription, FieldGroup, FieldLabel } from './ui/field';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { FieldError } from './FieldError';
+import { textValues } from '@/lib/form-values';
+import TaskImage from './TaskImage';
+import { IMAGE_TYPES } from '@/validations/addTask.validation';
 import { taskFormAction } from '@/actions/task.actions';
 import { NOT_STARTED, priorityTone, statusTone, titleKey, type Tone } from '@/constants/task.constants';
 import { cn } from '@/lib/utils';
@@ -57,7 +60,7 @@ export default function AddTaskModal({ categories, updateTask }: Props) {
         )}
       </DialogTrigger>
 
-      <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl sm:max-w-xl">
+      <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="relative mb-2 self-start pb-1 font-semibold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-400">
             {isUpdate ? 'Update Task' : 'Add New Task'}
@@ -86,14 +89,19 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
   const [priorityId, setPriorityId] = useState(updateTask?.priorityId ?? defaultPriorityId(priorities));
   const [statusId, setStatusId] = useState(updateTask?.statusId ?? notStarted?.id ?? '');
 
-  const [state, action, isPending] = useActionState(async (prevState: Parameters<typeof taskFormAction>[0], formData: FormData) => {
-    const result = await taskFormAction(prevState, formData);
-    if (result.success) {
-      toast.success(result.message);
-      onSuccess();
-    }
-    return result;
-  }, {});
+  const [state, action, isPending] = useActionState(
+    async (prevState: Parameters<typeof taskFormAction>[0], formData: FormData) => {
+      const result = await taskFormAction(prevState, formData);
+      if (result.success) {
+        if (result.warning) toast.warning(result.message);
+        else toast.success(result.message);
+        onSuccess();
+        return result;
+      }
+      return { ...result, values: textValues(formData), attempt: (prevState.attempt ?? 0) + 1 };
+    },
+    {},
+  );
 
   const categoriesMissing = priorities.length === 0 || statuses.length === 0;
   const canSubmit = !isPending && !!priorityId && !!statusId;
@@ -105,65 +113,90 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
       {categoriesMissing && <p className="text-sm text-red-500">Could not load priority/status options.</p>}
       {state.message && !state.success && <p className="text-sm text-red-500">{state.message}</p>}
 
-      <FieldGroup className="gap-5 rounded-xl border border-stone-200 p-4 sm:p-6">
-        <Field>
-          <Label htmlFor="title" className="font-bold text-[#333]">
-            Name
-          </Label>
-          <Input id="title" name="title" defaultValue={updateTask?.title ?? ''} aria-invalid={!!state.errors?.title} />
-          <FieldError errors={state.errors?.title} />
-        </Field>
-
-        <Field>
-          <Label className="font-bold text-[#333]">Priority</Label>
-          <CategoryRadioGroup
-            name="priorityId"
-            label="Priority"
-            items={priorities}
-            value={priorityId}
-            onChange={setPriorityId}
-            toneOf={priorityTone}
-          />
-          <FieldError errors={state.errors?.priorityId} />
-        </Field>
-
-        <Field>
-          <Label className="font-bold text-[#333]">Status</Label>
-          {isUpdate ? (
-            <CategoryRadioGroup
-              name="statusId"
-              label="Status"
-              items={statuses}
-              value={statusId}
-              onChange={setStatusId}
-              toneOf={statusTone}
+      <div className="flex flex-col gap-6 rounded-xl border border-stone-200 p-4 sm:flex-row sm:p-6">
+        <FieldGroup className="gap-5 sm:w-2/3">
+          <Field>
+            <Label htmlFor="title" className="font-bold text-[#333]">
+              Name
+            </Label>
+            <Input
+              id="title"
+              name="title"
+              defaultValue={state.values?.title ?? updateTask?.title ?? ''}
+              aria-invalid={!!state.errors?.title}
             />
-          ) : (
-            // New tasks always start as "Not Started"
-            <div className="flex items-center gap-1.5 text-xs">
-              <span className={cn('size-2 rounded-full', statusTone(NOT_STARTED).dot)} />
-              <span>{notStarted?.title ?? 'Not Started'}</span>
-              <input type="hidden" name="statusId" value={statusId} />
-            </div>
-          )}
-          <FieldError errors={state.errors?.statusId} />
-        </Field>
+            <FieldError errors={state.errors?.title} />
+          </Field>
 
-        <Field>
-          <FieldLabel htmlFor="description" className="font-bold text-[#333]">
-            Task Description
-          </FieldLabel>
-          <Textarea
-            id="description"
-            name="description"
-            className="custom-scrollbar h-[160px] resize-none pr-3"
-            placeholder="Start writing here..."
-            defaultValue={updateTask?.description ?? ''}
-            aria-invalid={!!state.errors?.description}
-          />
-          <FieldError errors={state.errors?.description} />
-        </Field>
-      </FieldGroup>
+          <Field>
+            <Label className="font-bold text-[#333]">Priority</Label>
+            <CategoryRadioGroup
+              name="priorityId"
+              label="Priority"
+              items={priorities}
+              value={priorityId}
+              onChange={setPriorityId}
+              toneOf={priorityTone}
+            />
+            <FieldError errors={state.errors?.priorityId} />
+          </Field>
+
+          <Field>
+            <Label className="font-bold text-[#333]">Status</Label>
+            {isUpdate ? (
+              <CategoryRadioGroup
+                name="statusId"
+                label="Status"
+                items={statuses}
+                value={statusId}
+                onChange={setStatusId}
+                toneOf={statusTone}
+              />
+            ) : (
+              // New tasks always start as "Not Started"
+              <div className="flex items-center gap-1.5 text-xs">
+                <span className={cn('size-2 rounded-full', statusTone(NOT_STARTED).dot)} />
+                <span>{notStarted?.title ?? 'Not Started'}</span>
+                <input type="hidden" name="statusId" value={statusId} />
+              </div>
+            )}
+            <FieldError errors={state.errors?.statusId} />
+          </Field>
+
+          <Field>
+            <FieldLabel htmlFor="description" className="font-bold text-[#333]">
+              Task Description
+            </FieldLabel>
+            <Textarea
+              id="description"
+              name="description"
+              className="custom-scrollbar h-[160px] resize-none pr-3"
+              placeholder="Start writing here..."
+              defaultValue={state.values?.description ?? updateTask?.description ?? ''}
+              aria-invalid={!!state.errors?.description}
+            />
+            <FieldError errors={state.errors?.description} />
+          </Field>
+        </FieldGroup>
+
+        <FieldGroup className="gap-5 sm:w-1/3">
+          <Field>
+            <Label htmlFor="dueDate" className="font-bold text-[#333]">
+              Due Date <span className="font-normal text-stone-400">(optional)</span>
+            </Label>
+            <Input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              defaultValue={state.values?.dueDate ?? updateTask?.dueDate ?? ''}
+              aria-invalid={!!state.errors?.dueDate}
+            />
+            <FieldError errors={state.errors?.dueDate} />
+          </Field>
+
+          <ImageField key={state.attempt ?? 0} currentImage={updateTask?.avatar ?? null} errors={state.errors?.image} />
+        </FieldGroup>
+      </div>
 
       <DialogFooter>
         <Button type="submit" className="rounded-md bg-red-500 text-white hover:bg-red-600" disabled={!canSubmit}>
@@ -171,6 +204,42 @@ function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: ()
         </Button>
       </DialogFooter>
     </form>
+  );
+}
+
+function ImageField({ currentImage, errors }: { currentImage: string | null; errors?: string[] }) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [removeCurrent, setRemoveCurrent] = useState(false);
+  const shown = preview ?? (removeCurrent ? null : currentImage);
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (preview) URL.revokeObjectURL(preview);
+    setPreview(file ? URL.createObjectURL(file) : null);
+  }
+
+  return (
+    <Field>
+      <FieldLabel htmlFor="image" className="font-bold text-[#333]">
+        Image <span className="font-normal text-stone-400">(optional)</span>
+      </FieldLabel>
+      <TaskImage src={shown} alt="Task image preview" className="aspect-square w-full max-w-[200px]" />
+      <Input id="image" name="image" type="file" accept={IMAGE_TYPES.join(',')} onChange={handleChange} />
+      <FieldDescription>JPG, PNG, WEBP or GIF, up to 5MB.</FieldDescription>
+      {currentImage && !preview && (
+        <label className="flex cursor-pointer items-center gap-2 text-xs text-stone-600">
+          <input
+            type="checkbox"
+            name="removeImage"
+            checked={removeCurrent}
+            onChange={(event) => setRemoveCurrent(event.target.checked)}
+            className="accent-red-500"
+          />
+          Remove current image
+        </label>
+      )}
+      <FieldError errors={errors} />
+    </Field>
   );
 }
 
@@ -190,7 +259,13 @@ function CategoryRadioGroup({
   toneOf: (title?: string | null) => Tone;
 }) {
   return (
-    <RadioGroup name={name} value={value} onValueChange={onChange} aria-label={label} className="flex flex-wrap gap-x-5 gap-y-2">
+    <RadioGroup
+      name={name}
+      value={value}
+      onValueChange={onChange}
+      aria-label={label}
+      className="flex flex-wrap gap-x-5 gap-y-2"
+    >
       {items.map((item) => {
         const tone = toneOf(item.title);
         const id = `${name}-${item.id}`;

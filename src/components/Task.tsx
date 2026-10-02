@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import { isCompletedStatus, priorityTone, statusTone } from '@/constants/task.constants';
 import type { TaskType } from '@/types/task.types';
 import TaskActionsMenu from './TaskActionsMenu';
+import TaskImage from './TaskImage';
+import DueBadge from './DueBadge';
 
 type Props = {
   task: TaskType;
@@ -28,7 +30,7 @@ export default function Task({ task, onSelect, active = false }: Props) {
           <p className="line-clamp-2 text-xs break-words text-stone-400">{task.description}</p>
         </div>
 
-        <div className="hidden size-16 shrink-0 rounded-lg bg-stone-200 sm:block" />
+        <TaskImage src={task.avatar} alt="" className="hidden size-16 rounded-lg sm:flex" />
       </div>
 
       {completed ? (
@@ -37,13 +39,13 @@ export default function Task({ task, onSelect, active = false }: Props) {
             <span className="text-stone-600">Status:</span>
             <span className={status.text}>{task.status?.title}</span>
           </div>
-          {/* updatedAt is the closest thing to a completion date until the backend tracks one */}
+          {/* Tasks completed before completedAt existed fall back to updatedAt */}
           <p className="text-stone-400" suppressHydrationWarning>
-            Completed {formatDistanceToNow(new Date(task.updatedAt), { addSuffix: true })}
+            Completed {formatDistanceToNow(new Date(task.completedAt ?? task.updatedAt), { addSuffix: true })}
           </p>
         </div>
       ) : (
-        <div className="flex flex-wrap gap-x-3 gap-y-1 pl-6.5 text-[11px]">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pl-6.5 text-[11px]">
           <div className="flex gap-1">
             <span className="text-stone-600">Priority:</span>
             <span className={priority.text}>{task.priority?.title}</span>
@@ -56,6 +58,7 @@ export default function Task({ task, onSelect, active = false }: Props) {
             <span>Created on:</span>
             <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
           </div>
+          <DueBadge dueDate={task.dueDate} />
         </div>
       )}
     </>

@@ -8,6 +8,9 @@ import { priorityTone, statusTone } from '@/constants/task.constants';
 import type { TaskType } from '@/types/task.types';
 import ConfirmDeleteDialog from './ConfirmDeleteDialog';
 import EmptyState from './EmptyState';
+import TaskImage from './TaskImage';
+import DueBadge from './DueBadge';
+import { isCompletedStatus } from '@/constants/task.constants';
 
 export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskType | undefined }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -19,7 +22,7 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
   return (
     <div className="flex h-full flex-col gap-6 p-6">
       <div className="flex shrink-0 gap-5">
-        <div className="size-32 shrink-0 rounded-xl bg-stone-200 xl:size-[170px]" />
+        <TaskImage src={activeTask.avatar} alt={activeTask.title} className="size-32 xl:size-[170px]" />
         <div className="flex min-w-0 flex-col justify-end gap-3">
           <h2 className="text-base font-semibold break-words text-[#333]">{activeTask.title}</h2>
           <div className="flex gap-1 text-xs">
@@ -34,6 +37,11 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
             <span>Created on</span>
             <span>{format(new Date(activeTask.createdAt), 'dd/MM/yyyy')}</span>
           </div>
+          <DueBadge
+            dueDate={activeTask.dueDate}
+            completed={isCompletedStatus(activeTask.status?.title)}
+            className="self-start"
+          />
         </div>
       </div>
 

@@ -6,7 +6,6 @@ import { authConstants } from '@/constants/auth.constants';
 import Link from 'next/link';
 import { FaUser } from 'react-icons/fa';
 import { RiLockPasswordFill } from 'react-icons/ri';
-import { FcGoogle } from 'react-icons/fc';
 import { useActionState } from 'react';
 import { LoginFormState } from '@/types/login-formstate';
 import { submitLoginForm } from '@/actions/auth.actions';
@@ -63,9 +62,6 @@ export default function Login() {
             {isLoading ? 'Loading...' : authConstants.LOGIN}
           </Button>
         </form>
-        <p className="flex items-center gap-2">
-          Or, Login with <FcGoogle className="inline-block size-6 cursor-pointer" />
-        </p>
         <p>
           {authConstants.DONTHAVEANACCOUNT}{' '}
           <Link className="text-blue-500 hover:underline" href="/register">

@@ -3,8 +3,10 @@ import { format } from 'date-fns';
 import GoBack from '@/components/GoBack';
 import AddTaskModal from '@/components/AddTaskModal';
 import DeleteTaskButton from '@/components/DeleteTaskButton';
+import TaskImage from '@/components/TaskImage';
+import DueBadge from '@/components/DueBadge';
 import { getCategories, getTask } from '@/lib/api';
-import { priorityTone, statusTone } from '@/constants/task.constants';
+import { isCompletedStatus, priorityTone, statusTone } from '@/constants/task.constants';
 
 export default async function TaskDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -15,7 +17,7 @@ export default async function TaskDetails({ params }: { params: Promise<{ id: st
   return (
     <article className="flex flex-col gap-5 rounded-2xl border p-4 shadow-[0_0_5px_rgba(0,0,0,0.08)] sm:p-6 lg:h-full lg:min-h-[480px]">
       <div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:gap-5">
-        <div className="size-28 shrink-0 rounded-xl bg-stone-200 sm:size-[170px]" />
+        <TaskImage src={task.avatar} alt={task.title} className="size-28 sm:size-[170px]" />
         <div className="flex min-w-0 flex-1 flex-col gap-3 sm:justify-end sm:self-stretch">
           <h1 className="text-2xl font-semibold break-words text-[#333] sm:text-3xl">{task.title}</h1>
           <div className="flex gap-1 text-sm">
@@ -30,6 +32,17 @@ export default async function TaskDetails({ params }: { params: Promise<{ id: st
             <span>Created on</span>
             <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
           </div>
+          {task.completedAt && isCompletedStatus(task.status?.title) && (
+            <div className="flex gap-1 text-sm text-stone-400">
+              <span>Completed on</span>
+              <span>{format(new Date(task.completedAt), 'dd/MM/yyyy')}</span>
+            </div>
+          )}
+          <DueBadge
+            dueDate={task.dueDate}
+            completed={isCompletedStatus(task.status?.title)}
+            className="self-start text-xs"
+          />
         </div>
         <div className="self-end sm:self-start">
           <GoBack />

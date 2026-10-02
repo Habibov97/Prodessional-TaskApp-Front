@@ -68,6 +68,9 @@ const PRIORITY_TONES: Record<string, Tone> = {
 export const statusTone = (title?: string | null) => STATUS_TONES[titleKey(title)] ?? TONES.stone;
 export const priorityTone = (title?: string | null) => PRIORITY_TONES[titleKey(title)] ?? TONES.stone;
 
+// The backend refuses to rename or delete these; the app depends on them.
+export const isProtectedCategory = (title?: string | null) => [NOT_STARTED, COMPLETED].includes(titleKey(title));
+
 export const isCompletedStatus = (title?: string | null) => titleKey(title) === COMPLETED;
 
 export function sortByTitleOrder<T extends { title: string }>(items: T[], order: string[]): T[] {
