@@ -1,46 +1,38 @@
-import ProgressBar from '@/components/ProgressBar';
-import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
-import { TaskType } from '@/types/task.types';
 import { MdOutlineInventory } from 'react-icons/md';
+import ProgressBar from '@/components/ProgressBar';
+import DashboardCard from './DashboardCard';
+import { COMPLETED, IN_PROGRESS, NOT_STARTED, statusTone, titleKey } from '@/constants/task.constants';
+import { cn } from '@/lib/utils';
+import type { TaskType } from '@/types/task.types';
 
-const STROKE_COLOR = ['stroke-green-500', 'stroke-purple-500', 'stroke-red-500'];
-const STATUS_COLOR = ['bg-green-500', 'bg-purple-500', 'bg-red-500'];
-const STATUS_KEYS = ['completed', 'in progress', 'not started'] as const;
-const STATUS_LABELS = ['Completed', 'In Progress', 'Not Started'];
+const STATUSES = [
+  { key: COMPLETED, label: 'Completed' },
+  { key: IN_PROGRESS, label: 'In Progress' },
+  { key: NOT_STARTED, label: 'Not Started' },
+];
 
-export default async function ProgressDetails() {
-  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/task`);
-  const { data: tasks }: { data: TaskType[] } = await res.json();
-
-  const total = tasks?.length ?? 0;
-
-  const counts = { completed: 0, 'in progress': 0, 'not started': 0 };
-
-  tasks?.forEach((task) => {
-    const key = task.status?.title?.trim().toLowerCase() as keyof typeof counts;
-    if (key in counts) counts[key]++;
-  });
-
-  const percentages = STATUS_KEYS.map((key) => (total > 0 ? Math.round((counts[key] / total) * 100) : 0));
+export default function ProgressDetails({ tasks }: { tasks: TaskType[] }) {
+  const total = tasks.length;
 
   return (
-    <div className="row-span-2 flex flex-col items-center border-stone-200 shadow-[0_0_25px_rgba(0,0,0,0.1)] h-full rounded-xl text-xl pt-[10px] pb-[20px] px-10">
-      <div className="mb-[20px] mr-auto text-green-500 flex gap-[5px] items-center">
-        <MdOutlineInventory className="text-[25px] text-stone-300" />
-        <div className="text-[14px]">Task Status</div>
-      </div>
+    <DashboardCard icon={<MdOutlineInventory />} title="Task Status">
+      <div className="grid grid-cols-3 gap-3 sm:gap-6">
+        {STATUSES.map(({ key, label }) => {
+          const count = tasks.filter((task) => titleKey(task.status?.title) === key).length;
+          const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+          const tone = statusTone(key);
 
-      <div className="flex justify-between gap-[15px] w-full max-w-[600px]">
-        {STATUS_LABELS.map((label, index) => (
-          <div key={label} className="flex flex-col gap-[10px]">
-            <ProgressBar strokeColor={STROKE_COLOR[index]} percentage={percentages[index]} />
-            <div className="flex items-center gap-[5px]">
-              <div className={`w-[10px] h-[10px] rounded-full ${STATUS_COLOR[index]}`} />
-              <div className="text-sm font-semibold">{label}</div>
+          return (
+            <div key={key} className="flex flex-col items-center gap-2.5">
+              <ProgressBar strokeColor={tone.stroke} percentage={percentage} />
+              <div className="flex items-center gap-1.5">
+                <span className={cn('size-2.5 shrink-0 rounded-full', tone.dot)} />
+                <span className="text-xs font-semibold sm:text-sm">{label}</span>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-    </div>
+    </DashboardCard>
   );
 }

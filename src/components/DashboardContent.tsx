@@ -1,15 +1,19 @@
 import ProgressDetails from './ProgressDetails';
 import CompletedTask from './CompletedTask';
 import ToDo from './ToDo';
+import { isCompletedStatus } from '@/constants/task.constants';
+import type { TaskCategories } from '@/lib/api';
+import type { TaskType } from '@/types/task.types';
 
-export default function DashboardContent() {
+export default function DashboardContent({ tasks, categories }: { tasks: TaskType[]; categories: TaskCategories }) {
+  const todo = tasks.filter((task) => !isCompletedStatus(task.status?.title));
+  const completed = tasks.filter((task) => isCompletedStatus(task.status?.title));
+
   return (
-    <main className="border shadow-[0_0_25px_rgba(0,0,0,0.08)] p-[26px] mt-[26px] mb-[26px] h-[76dvh]">
-      <div className="grid grid-cols-2 grid-rows-5 gap-2 h-full">
-        <ToDo />
-        <ProgressDetails />
-        <CompletedTask />
-      </div>
-    </main>
+    <div className="grid gap-4 rounded-2xl border p-4 shadow-[0_0_25px_rgba(0,0,0,0.08)] sm:p-6 lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:grid-rows-[auto_minmax(0,1fr)]">
+      <ToDo tasks={todo} categories={categories} />
+      <ProgressDetails tasks={tasks} />
+      <CompletedTask tasks={completed} />
+    </div>
   );
 }

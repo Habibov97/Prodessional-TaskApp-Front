@@ -1,27 +1,33 @@
+import type { Metadata } from 'next';
 import GoBack from '@/components/GoBack';
-import React from 'react';
+import UserAvatar from '@/components/UserAvatar';
+import { getMe } from '@/lib/api';
 
-export default function layout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: 'Settings',
+};
+
+export default async function SettingsLayout({ children }: { children: React.ReactNode }) {
+  const user = await getMe();
+
   return (
-    <section className="px-[76px] flex-1">
-      <main className="flex flex-col gap-5 border shadow-[0_0_5px_rgba(0,0,0,0.08)] p-[26px] mb-[26px] h-[76dvh]">
-        <div className="flex justify-between items-center mb-2">
-          <h2 className="relative text-xl font-bold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500">
-            Account Information
-          </h2>
-          <GoBack />
+    <section className="flex flex-col gap-5 rounded-2xl border p-4 shadow-[0_0_5px_rgba(0,0,0,0.08)] sm:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="relative pb-1 text-xl font-bold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500">
+          Account Information
+        </h2>
+        <GoBack />
+      </div>
+      <div className="flex items-center gap-4 sm:gap-5">
+        <UserAvatar user={user} className="size-16 text-xl sm:size-[100px] sm:text-3xl" />
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <h3 className="truncate text-lg font-semibold">
+            {user?.firstName} {user?.lastName}
+          </h3>
+          <p className="truncate text-stone-500">{user?.email}</p>
         </div>
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-5 items-center">
-            <div className="w-[100px] h-[100px] bg-stone-200 rounded-full"></div>
-            <div className="flex flex-col gap-[0.5]">
-              <h2 className="text-lg font-semibold">Najaf Habibov</h2>
-              <p>najaff.habibov@gmail.com</p>
-            </div>
-          </div>
-        </div>
-        {children}
-      </main>
+      </div>
+      {children}
     </section>
   );
 }

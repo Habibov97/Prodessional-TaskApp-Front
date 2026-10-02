@@ -1,68 +1,68 @@
 'use client';
 import Link from 'next/link';
-import { dashboardNavMocks } from '../mocks/dashboardNavigation.mocks';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { dashboardNavMocks } from '../mocks/dashboardNavigation.mocks';
 import { logoutAction } from '@/actions/auth.actions';
+import { cn } from '@/lib/utils';
+import UserAvatar from './UserAvatar';
+import type { UserType } from '@/types/user.types';
 
-export default function DashboardNavigation({ data }: any) {
+function isActive(pathName: string, href: string) {
+  if (href === '/dashboard') return pathName === href;
+  return pathName === href || pathName.startsWith(`${href}/`);
+}
+
+export default function DashboardNavigation({ user, onNavigate }: { user: UserType | null; onNavigate?: () => void }) {
   const pathName = usePathname();
-  const router = useRouter();
-
-  async function handleLogout() {
-    await logoutAction();
-    localStorage.removeItem('accessToken');
-    router.replace('/login');
-  }
+  const links = dashboardNavMocks.filter((item) => item.key !== 'logout');
+  const logout = dashboardNavMocks.find((item) => item.key === 'logout');
+  const LogoutIcon = logout?.icon;
 
   return (
-    <header className="px-[21px] pb-[31px] bg-red-500/90 text-white rounded-r-md rounded-br-md shadow-mist-500 max-w-[300px] min-w-[280px] w-full ">
-      <nav className="relative flex flex-col items-center justify-center ">
-        <div className="absolute w-[100px] h-[100px] rounded-full overflow-hidden bg-stone-400 top-[-50px] left-1/2 -translate-x-1/2 ">
-          {/* <img style={{ background: '' }} src="" alt="" /> */}
-        </div>
-        <div className="mt-[60px] mb-[30px] text-center">
-          <p className="font-bold">
-            {data?.user?.firstName} {data?.user?.lastName}
+    <nav className="flex h-full flex-col gap-6 rounded-r-2xl bg-red-500/90 px-4 py-6 text-white xl:px-5">
+      <div className="flex flex-col items-center gap-3 text-center">
+        <UserAvatar user={user} className="size-20 text-2xl ring-4 ring-white/40" />
+        <div className="min-w-0 max-w-full">
+          <p className="truncate font-bold">
+            {user?.firstName} {user?.lastName}
           </p>
-          <p>{data?.user?.email}</p>
+          <p className="truncate text-sm text-white/80">{user?.email}</p>
         </div>
-        <div className="flex flex-col justify-between min-h-[60dvh]">
-          <div className="flex flex-col gap-3">
-            {dashboardNavMocks?.map((item) => {
-              const Icon = item.icon;
-              if (item.key === 'logout') return;
-              return (
-                <Link
-                  href={item.href}
-                  key={item.id}
-                  className={`flex items-center gap-3 py-[15px] px-[30px] rounded-xl ${pathName === item.href ? 'bg-white text-red-500' : ''} `}
-                >
-                  <Icon size={25} />
-                  <span>{item.title}</span>
-                </Link>
-              );
-            })}
-          </div>
-          <div>
-            {dashboardNavMocks
-              ?.filter((item) => item.key === 'logout')
-              .map((item) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={item.id}
-                    onClick={handleLogout}
-                    className={`flex items-center gap-3 py-[15px] px-[30px] rounded-xl cursor-pointer`}
-                  >
-                    <Icon size={25} />
-                    <span>{item.title}</span>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </nav>
-    </header>
+      </div>
+
+      <div className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto">
+        {links.map((item) => {
+          const Icon = item.icon;
+          const active = isActive(pathName, item.href);
+          return (
+            <Link
+              href={item.href}
+              key={item.id}
+              onClick={onNavigate}
+              aria-current={active ? 'page' : undefined}
+              className={cn(
+                'flex items-center gap-3 rounded-xl px-5 py-3 transition-colors',
+                active ? 'bg-white text-red-500' : 'hover:bg-white/15',
+              )}
+            >
+              <Icon size={22} className="shrink-0" />
+              <span>{item.title}</span>
+            </Link>
+          );
+        })}
+      </div>
+
+      {logout && LogoutIcon && (
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            className="flex w-full cursor-pointer items-center gap-3 rounded-xl px-5 py-3 transition-colors hover:bg-white/15"
+          >
+            <LogoutIcon size={22} className="shrink-0" />
+            <span>{logout.title}</span>
+          </button>
+        </form>
+      )}
+    </nav>
   );
 }

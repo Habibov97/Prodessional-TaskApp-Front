@@ -1,26 +1,24 @@
-import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
 import Link from 'next/link';
+import type { UserType } from '@/types/user.types';
 
-export default async function Welcoming() {
-  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/user/me`);
-  const data = await res.json();
-
+export default function Welcoming({ user }: { user: UserType | null }) {
   return (
-    <section className="flex justify-between">
-      <h1 className="text-3xl font-semibold text-[#333]">
-        Welcome {data.user.firstName} {data.user.lastName} 👋
+    <section className="flex flex-wrap items-center justify-between gap-4">
+      <h1 className="text-2xl font-semibold text-[#333] sm:text-3xl">
+        Welcome {user?.firstName} {user?.lastName} 👋
       </h1>
-      <div className="flex gap-[20px] items-center">
-        <div className="flex gap-1">
-          <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>
-          <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>
-          <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>
-          <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>
-          <p className="w-[36px] h-[36px] rounded-xl  bg-stone-200"></p>
+      <div className="flex items-center gap-5">
+        <div className="hidden gap-1 sm:flex">
+          {Array.from({ length: 5 }, (_, i) => (
+            <span key={i} className="size-9 rounded-xl bg-stone-200" />
+          ))}
         </div>
-        <div className="flex justify-center items-center  border border-green-500 rounded-md text-green-500 w-[100px] py-[10px]">
-          <Link href="#">Invite</Link>
-        </div>
+        <Link
+          href="#"
+          className="flex w-[100px] items-center justify-center rounded-md border border-green-500 py-2 text-green-500"
+        >
+          Invite
+        </Link>
       </div>
     </section>
   );

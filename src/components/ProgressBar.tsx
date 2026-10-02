@@ -27,7 +27,7 @@ export default function SafeCircularProgress({
   const strokeDashoffset = circumference - (currentPercent / 100) * circumference;
 
   return (
-    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+    <div className="relative flex aspect-square w-full items-center justify-center" style={{ maxWidth: size }}>
       <svg className="w-full h-full transform -rotate-90" viewBox={`0 0 ${size} ${size}`}>
         <circle
           cx={size / 2}
@@ -51,7 +51,7 @@ export default function SafeCircularProgress({
         />
       </svg>
 
-      <span className="absolute text-lg font-bold text-foreground">{currentPercent}%</span>
+      <span className="absolute text-sm font-bold text-foreground sm:text-lg">{currentPercent}%</span>
     </div>
   );
 }

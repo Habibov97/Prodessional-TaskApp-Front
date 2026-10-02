@@ -1,161 +1,67 @@
+import type { Metadata } from 'next';
 import GoBack from '@/components/GoBack';
 import TaskCategoriesActions from '@/components/TaskCategoriesActions';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
+export const metadata: Metadata = {
+  title: 'Task Categories',
+};
+
+const SECTIONS = [
+  { title: 'Task Status', kind: { taskStatus: true }, items: ['Completed', 'In Progress', 'Not Started'] },
+  { title: 'Task Priority', kind: { taskPriority: true }, items: ['Extreme', 'Moderate', 'Low'] },
+];
+
 export default function TaskCategories() {
   return (
-    <section className="px-[76px] flex-1">
-      <main className="flex flex-col gap-6 border shadow-[0_0_5px_rgba(0,0,0,0.08)] p-[26px] mb-[26px] h-[76dvh] ">
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <h2 className="relative text-xl font-bold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500 mb-3">
-              Task Categories
-            </h2>
-            <GoBack />
+    <section className="flex flex-col gap-6 rounded-2xl border p-4 shadow-[0_0_5px_rgba(0,0,0,0.08)] sm:p-6">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="relative pb-1 text-xl font-bold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-500">
+          Task Categories
+        </h2>
+        <GoBack />
+      </div>
+
+      {SECTIONS.map((section, index) => (
+        <div key={section.title} className="flex flex-col gap-5">
+          {index > 0 && <div className="h-px w-full bg-stone-300" />}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="relative pb-1 font-bold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-[50px] after:bg-green-500">
+              {section.title}
+            </h3>
+            <TaskCategoriesActions {...section.kind} edit={false} />
+          </div>
+
+          <div className="overflow-x-auto rounded-md border">
+            <Table className="min-w-[420px]">
+              <TableHeader>
+                <TableRow className="h-12 bg-stone-100">
+                  <TableHead className="w-16 text-center font-bold text-stone-700">SN</TableHead>
+                  <TableHead className="text-center font-bold text-stone-700">{section.title}</TableHead>
+                  <TableHead className="w-[200px] text-center font-bold text-stone-700">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {section.items.map((item, i) => (
+                  <TableRow key={item} className="h-16">
+                    <TableCell className="text-center font-medium text-stone-600">{i + 1}</TableCell>
+                    <TableCell className="text-center text-stone-600">{item}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center justify-center gap-2">
+                        <TaskCategoriesActions {...section.kind} edit={true} />
+                        <Button className="h-9 w-[80px] shrink-0 rounded-md bg-red-500 text-white hover:bg-red-600">
+                          Delete
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </div>
-        <div className="overflow-y-auto pr-5">
-          <div className="flex flex-col gap-5">
-            <div>
-              <div className="flex justify-between items-center">
-                <h3 className="relative text-md font-bold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-[50px] after:bg-green-500">
-                  Task Status
-                </h3>
-                <TaskCategoriesActions taskStatus={true} edit={false} />
-              </div>
-            </div>
-
-            {/* TASK STATUS */}
-            <div>
-              <Table className="table-fixed w-full">
-                <TableHeader className="border">
-                  <TableRow className="h-12 bg-stone-100">
-                    <TableHead className="w-[10%] text-center align-middle font-bold text-stone-700">SN</TableHead>
-                    <TableHead className="w-[55%] text-center align-middle font-bold text-stone-700">
-                      Task Status
-                    </TableHead>
-                    <TableHead className="w-[35%] text-center align-middle font-bold text-stone-700">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="border">
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">1</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">Completed</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskStatus={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">2</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">In Progress</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskStatus={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">3</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">Not Started</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskStatus={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-
-          <div className="w-full h-[1px] bg-stone-400 my-10"></div>
-
-          {/* TASK PRIORITY */}
-          <div className="flex flex-col gap-5">
-            <div className="flex justify-between items-center">
-              <h3 className="relative text-md font-bold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-[50px] after:bg-green-500">
-                Task Priority
-              </h3>
-              <TaskCategoriesActions taskPriority={true} edit={false} />
-            </div>
-
-            {/* TASK PRIORITY */}
-            <div>
-              <Table className="table-fixed w-full">
-                <TableHeader className="border">
-                  <TableRow className="h-12 bg-stone-100">
-                    <TableHead className="w-[10%] text-center align-middle font-bold text-stone-700">SN</TableHead>
-                    <TableHead className="w-[55%] text-center align-middle font-bold text-stone-700">
-                      Task Priority
-                    </TableHead>
-                    <TableHead className="w-[35%] text-center align-middle font-bold text-stone-700">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody className="border">
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">1</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">Extreme</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskPriority={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">2</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">Moderate</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskPriority={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-
-                  <TableRow className="h-16">
-                    <TableCell className="w-[10%] text-center align-middle font-medium text-stone-600">3</TableCell>
-                    <TableCell className="w-[55%] text-center align-middle text-stone-600">Low</TableCell>
-                    <TableCell className="w-[35%] text-center align-middle">
-                      <div className="flex gap-2 items-center justify-center w-full">
-                        <TaskCategoriesActions taskPriority={true} edit={true} />
-
-                        <Button className="text-white bg-red-500 hover:bg-red-600 rounded-md w-[80px] h-9 shrink-0">
-                          Delete
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        </div>
-      </main>
+      ))}
     </section>
   );
 }

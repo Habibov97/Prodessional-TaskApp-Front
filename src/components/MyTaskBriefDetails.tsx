@@ -1,61 +1,72 @@
 'use client';
-import { deleteTaskAction } from '@/actions/taskdelete.action.';
-import { TaskType } from '@/types/task.types';
-import { format } from 'date-fns';
+import { useState } from 'react';
 import Link from 'next/link';
+import { format } from 'date-fns';
 import { CgDetailsMore } from 'react-icons/cg';
 import { FaTrash } from 'react-icons/fa';
+import { priorityTone, statusTone } from '@/constants/task.constants';
+import type { TaskType } from '@/types/task.types';
+import ConfirmDeleteDialog from './ConfirmDeleteDialog';
+import EmptyState from './EmptyState';
 
 export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskType | undefined }) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   if (!activeTask) {
-    return (
-      <div className="flex h-full items-center justify-center text-stone-400 text-sm">
-        Tap on any task to view brief details
-      </div>
-    );
+    return <EmptyState className="h-full" title="Tap on any task to view brief details" />;
   }
 
   return (
-    <div className="flex flex-col h-full p-6 gap-6">
-      {/* Fixed: image + meta */}
-      <div className="shrink-0 flex gap-5">
-        <div className="shrink-0 w-[170px] h-[170px] rounded-xl bg-stone-200" />
-        <div className="flex flex-col gap-3 justify-end">
-          <h2 className="text-sm font-semibold">{activeTask.title}</h2>
-          <div className="text-xs flex gap-1">
+    <div className="flex h-full flex-col gap-6 p-6">
+      <div className="flex shrink-0 gap-5">
+        <div className="size-32 shrink-0 rounded-xl bg-stone-200 xl:size-[170px]" />
+        <div className="flex min-w-0 flex-col justify-end gap-3">
+          <h2 className="text-base font-semibold break-words text-[#333]">{activeTask.title}</h2>
+          <div className="flex gap-1 text-xs">
             <span className="text-stone-500">Priority:</span>
-            <span className="text-red-500">{activeTask.priority.title}</span>
+            <span className={priorityTone(activeTask.priority?.title).text}>{activeTask.priority?.title}</span>
           </div>
-          <div className="text-xs flex gap-1">
+          <div className="flex gap-1 text-xs">
             <span className="text-stone-500">Status:</span>
-            <span className="text-red-500">{activeTask.status.title}</span>
+            <span className={statusTone(activeTask.status?.title).text}>{activeTask.status?.title}</span>
           </div>
-          <div className="text-xs flex gap-1 text-stone-400">
+          <div className="flex gap-1 text-xs text-stone-400">
             <span>Created on</span>
             <span>{format(new Date(activeTask.createdAt), 'dd/MM/yyyy')}</span>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-        <p className="text-sm leading-relaxed text-stone-600 break-words">{activeTask.description}</p>
+      <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
+        <p className="text-sm leading-relaxed break-words whitespace-pre-wrap text-stone-600">
+          {activeTask.description}
+        </p>
       </div>
 
-      <form action={deleteTaskAction} className="shrink-0 flex gap-3 justify-end">
-        <input hidden type="text" name="taskId" defaultValue={String(activeTask.id)} />
+      <div className="flex shrink-0 justify-end gap-3">
         <button
-          type="submit"
-          className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
+          type="button"
+          onClick={() => setConfirmOpen(true)}
+          aria-label="Delete task"
+          className="flex size-9 cursor-pointer items-center justify-center rounded-md bg-red-500 transition-colors hover:bg-red-600"
         >
-          <FaTrash className="w-4 h-4 text-white" />
+          <FaTrash className="size-4 text-white" />
         </button>
         <Link
           href={`/dashboard/mytask/${activeTask.id}`}
-          className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
+          aria-label="Open task details"
+          className="flex size-9 items-center justify-center rounded-md bg-red-500 transition-colors hover:bg-red-600"
         >
-          <CgDetailsMore className="w-4 h-4 text-white" />
+          <CgDetailsMore className="size-4 text-white" />
         </Link>
-      </form>
+      </div>
+
+      <ConfirmDeleteDialog
+        taskId={activeTask.id}
+        taskTitle={activeTask.title}
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+      />
     </div>
   );
 }
