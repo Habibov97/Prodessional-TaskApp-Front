@@ -37,7 +37,7 @@ export default function AvatarForm({ user }: { user: UserType | null }) {
         <h3 className="truncate text-lg font-semibold">
           {user?.firstName} {user?.lastName}
         </h3>
-        <p className="truncate text-stone-500">{user?.email}</p>
+        <p className="truncate text-muted-foreground">{user?.email}</p>
         <div className="mt-1 flex flex-wrap gap-3 text-sm">
           <input
             ref={inputRef}
@@ -60,7 +60,7 @@ export default function AvatarForm({ user }: { user: UserType | null }) {
               type="button"
               disabled={isPending}
               onClick={() => run(removeAvatarAction)}
-              className="cursor-pointer text-stone-500 hover:underline disabled:opacity-50"
+              className="cursor-pointer text-muted-foreground hover:underline disabled:opacity-50"
             >
               Remove
             </button>

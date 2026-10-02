@@ -23,16 +23,16 @@ export default function AuthInput({ icon: Icon, error, type, id, ...props }: Pro
           type={isPassword && visible ? 'text' : type}
           aria-invalid={!!error}
           aria-describedby={errorId}
-          className="h-12 rounded-lg border-stone-500 bg-transparent pr-11 pl-11"
+          className="h-12 rounded-lg border-foreground/30 bg-transparent pr-11 pl-11"
           {...props}
         />
-        <Icon className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-[#333]" />
+        <Icon className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-foreground" />
         {isPassword && (
           <button
             type="button"
             onClick={() => setVisible((v) => !v)}
             aria-label={visible ? 'Hide password' : 'Show password'}
-            className="absolute top-1/2 right-3 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-[#333] hover:bg-stone-200"
+            className="absolute top-1/2 right-3 flex size-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-foreground hover:bg-muted"
           >
             {visible ? <FaRegEye className="size-5" /> : <FaRegEyeSlash className="size-5" />}
           </button>

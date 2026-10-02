@@ -28,10 +28,10 @@ export const DUE_LABELS: Record<DueState, string> = {
 };
 
 export const DUE_STYLES: Record<DueState, string> = {
-  overdue: 'bg-red-50 text-red-600 ring-red-200',
-  today: 'bg-amber-50 text-amber-700 ring-amber-200',
-  tomorrow: 'bg-blue-50 text-blue-600 ring-blue-200',
-  upcoming: 'bg-stone-50 text-stone-500 ring-stone-200',
+  overdue: 'bg-red-50 text-red-600 ring-red-200 dark:bg-red-500/15 dark:text-red-400 dark:ring-red-500/30',
+  today: 'bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-500/15 dark:text-amber-300 dark:ring-amber-500/30',
+  tomorrow: 'bg-blue-50 text-blue-600 ring-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:ring-blue-500/30',
+  upcoming: 'bg-muted text-muted-foreground ring-border',
 };
 
 export const tomorrowKey = (today: string) => toDateKey(addDays(parseISO(today), 1));

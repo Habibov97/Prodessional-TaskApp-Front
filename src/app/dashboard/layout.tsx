@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   return (
     // On large screens the shell is exactly one viewport tall and only <main>
     // scrolls, so pages can use h-full to fill the remaining space.
-    <div className="flex min-h-dvh flex-col bg-white lg:h-dvh">
+    <div className="flex min-h-dvh flex-col bg-background lg:h-dvh">
       <Navbar user={user} tasks={tasks} />
       <div className="flex flex-1 lg:min-h-0">
         <aside className="hidden w-[260px] shrink-0 pt-4 lg:block xl:w-[280px]">

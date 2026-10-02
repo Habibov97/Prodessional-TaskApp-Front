@@ -22,7 +22,7 @@ export default function ProfileForm({ user }: { user: UserType | null }) {
   }, {});
 
   return (
-    <form action={action} className="rounded-xl border border-stone-200 p-4 sm:p-6">
+    <form action={action} className="rounded-xl border border-border p-4 sm:p-6">
       <div className="flex w-full max-w-md flex-col gap-4">
         <div className="flex flex-col gap-2">
           <Label htmlFor="firstName" className="font-bold">
@@ -45,7 +45,7 @@ export default function ProfileForm({ user }: { user: UserType | null }) {
           <Input id="email" name="email" type="email" className="rounded-sm" defaultValue={state.values?.email ?? user?.email} />
           <FieldError errors={state.errors?.email} />
         </div>
-        <p className="text-xs text-stone-400">Username: {user?.userName} (cannot be changed)</p>
+        <p className="text-xs text-muted-foreground">Username: {user?.userName} (cannot be changed)</p>
       </div>
       <div className="mt-8 flex flex-wrap gap-2">
         <Button type="submit" disabled={isPending} className="h-10 rounded-md bg-red-500 px-4 text-white hover:bg-red-600">

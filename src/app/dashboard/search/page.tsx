@@ -28,9 +28,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         <EmptyState title="Search your tasks" description="Type a word from a task title or description." />
       ) : (
         <>
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-muted-foreground">
             {`${tasks.length} result${tasks.length === 1 ? '' : 's'} for `}&quot;
-            <span className="font-medium text-[#333]">{query}</span>&quot;
+            <span className="font-medium text-foreground">{query}</span>&quot;
           </p>
           {tasks.length === 0 ? (
             <EmptyState title="No tasks found" description="Try a different word." />

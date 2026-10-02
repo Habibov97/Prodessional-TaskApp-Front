@@ -7,7 +7,7 @@ export default function UserAvatar({ user, className }: { user: UserType | null;
   return (
     <div
       className={cn(
-        'flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-stone-200 font-semibold text-stone-600 select-none',
+        'flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted font-semibold text-foreground/80 select-none',
         className,
       )}
       aria-hidden

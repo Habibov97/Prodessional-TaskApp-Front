@@ -56,19 +56,19 @@ export default function Help() {
 
       <div className="flex flex-col gap-3">
         {TOPICS.map((topic) => (
-          <details key={topic.question} className="group rounded-xl border border-stone-200 open:bg-stone-50/60">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-medium text-[#333] [&::-webkit-details-marker]:hidden">
+          <details key={topic.question} className="group rounded-xl border border-border open:bg-muted/50">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 font-medium text-foreground [&::-webkit-details-marker]:hidden">
               {topic.question}
               <span className="text-xl leading-none text-red-500 transition-transform group-open:rotate-45" aria-hidden>
                 +
               </span>
             </summary>
-            <p className="px-4 pb-4 text-sm leading-relaxed text-stone-600">{topic.answer}</p>
+            <p className="px-4 pb-4 text-sm leading-relaxed text-foreground/80">{topic.answer}</p>
           </details>
         ))}
       </div>
 
-      <p className="text-sm text-stone-500">
+      <p className="text-sm text-muted-foreground">
         Something else? Check your{' '}
         <Link href="/dashboard/settings" className="text-blue-500 hover:underline">
           account settings

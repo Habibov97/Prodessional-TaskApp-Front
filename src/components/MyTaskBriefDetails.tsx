@@ -25,16 +25,16 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
       <div className="flex shrink-0 gap-5">
         <TaskImage src={activeTask.avatar} alt={activeTask.title} className="size-32 xl:size-[170px]" />
         <div className="flex min-w-0 flex-col justify-end gap-3">
-          <h2 className="text-base font-semibold break-words text-[#333]">{activeTask.title}</h2>
+          <h2 className="text-base font-semibold break-words text-foreground">{activeTask.title}</h2>
           <div className="flex gap-1 text-xs">
-            <span className="text-stone-500">Priority:</span>
+            <span className="text-muted-foreground">Priority:</span>
             <span className={priorityTone(activeTask.priority?.title).text}>{activeTask.priority?.title}</span>
           </div>
           <div className="flex gap-1 text-xs">
-            <span className="text-stone-500">Status:</span>
+            <span className="text-muted-foreground">Status:</span>
             <span className={statusTone(activeTask.status?.title).text}>{activeTask.status?.title}</span>
           </div>
-          <div className="flex gap-1 text-xs text-stone-400">
+          <div className="flex gap-1 text-xs text-muted-foreground">
             <span>Created on</span>
             <span>{format(new Date(activeTask.createdAt), 'dd/MM/yyyy')}</span>
           </div>

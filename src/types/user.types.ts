@@ -7,6 +7,7 @@ export type UserType = {
   role: 'user' | 'admin';
   avatar: string;
   isActive: boolean;
+  isDemo: boolean;
   createdAt: string;
   updatedAt: string;
 };
