@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import GoBack from '@/components/GoBack';
-import UserAvatar from '@/components/UserAvatar';
+import AvatarForm from '@/components/settings/AvatarForm';
 import { getMe } from '@/lib/api';
 
 export const metadata: Metadata = {
@@ -18,15 +18,7 @@ export default async function SettingsLayout({ children }: { children: React.Rea
         </h2>
         <GoBack />
       </div>
-      <div className="flex items-center gap-4 sm:gap-5">
-        <UserAvatar user={user} className="size-16 text-xl sm:size-[100px] sm:text-3xl" />
-        <div className="flex min-w-0 flex-col gap-0.5">
-          <h3 className="truncate text-lg font-semibold">
-            {user?.firstName} {user?.lastName}
-          </h3>
-          <p className="truncate text-stone-500">{user?.email}</p>
-        </div>
-      </div>
+      <AvatarForm user={user} />
       {children}
     </section>
   );

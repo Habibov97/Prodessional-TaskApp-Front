@@ -1,12 +1,15 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { FaSearch } from 'react-icons/fa';
 import { FaUserLarge } from 'react-icons/fa6';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import MobileNavigation from './MobileNavigation';
+import NotificationsMenu from './NotificationsMenu';
+import SearchBar from './SearchBar';
 import TodayDate from './TodayDate';
+import type { TaskType } from '@/types/task.types';
 import type { UserType } from '@/types/user.types';
 
-export default function Navbar({ user }: { user: UserType | null }) {
+export default function Navbar({ user, tasks }: { user: UserType | null; tasks: TaskType[] }) {
   return (
     <header className="sticky top-0 z-40 shrink-0 bg-[#f8f8f8] shadow-md/10">
       <nav className="flex h-16 items-center gap-3 px-4 sm:px-6 xl:px-10">
@@ -17,27 +20,20 @@ export default function Navbar({ user }: { user: UserType | null }) {
         </Link>
 
         <div className="mx-auto hidden w-full max-w-[600px] md:block">
-          <div className="relative">
-            <input
-              type="search"
-              placeholder="Search your task here..."
-              aria-label="Search tasks"
-              className="h-9 w-full rounded-md bg-white py-2 pr-11 pl-4 text-sm shadow-md outline-none focus-visible:ring-2 focus-visible:ring-red-300"
-            />
-            <div className="absolute top-0 right-0 flex h-full w-9 items-center justify-center rounded-md bg-red-500 text-white">
-              <FaSearch className="size-3.5" />
-            </div>
-          </div>
+          <Suspense>
+            <SearchBar />
+          </Suspense>
         </div>
 
         <div className="ml-auto flex shrink-0 items-center gap-1.5 md:ml-0">
-          <button
-            type="button"
-            aria-label="Notifications"
-            className="flex size-9 cursor-pointer items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600"
+          <Link
+            href="/dashboard/search"
+            aria-label="Search tasks"
+            className="flex size-9 items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600 md:hidden"
           >
-            <IoMdNotificationsOutline className="text-xl" />
-          </button>
+            <FaSearch className="text-sm" />
+          </Link>
+          <NotificationsMenu tasks={tasks} />
           <Link
             href="/dashboard/settings"
             aria-label="Account settings"

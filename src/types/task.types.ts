@@ -2,7 +2,10 @@ export type TaskType = {
   id: string;
   title: string;
   description: string;
-  avatar: string;
+  avatar: string | null;
+  /** Calendar date, YYYY-MM-DD */
+  dueDate: string | null;
+  completedAt: string | null;
   vitalTask: boolean;
   priorityId: string;
   priority: {
