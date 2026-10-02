@@ -5,6 +5,7 @@ import AddTaskModal from '@/components/AddTaskModal';
 import DeleteTaskButton from '@/components/DeleteTaskButton';
 import TaskImage from '@/components/TaskImage';
 import DueBadge from '@/components/DueBadge';
+import RichTextContent from '@/components/RichTextContent';
 import { getCategories, getTask } from '@/lib/api';
 import { isCompletedStatus, priorityTone, statusTone } from '@/constants/task.constants';
 
@@ -49,8 +50,8 @@ export default async function TaskDetails({ params }: { params: Promise<{ id: st
         </div>
       </div>
 
-      <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1 text-base leading-[1.7] break-words whitespace-pre-wrap text-stone-600">
-        {task.description}
+      <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
+        <RichTextContent html={task.description} className="text-base" />
       </div>
 
       <div className="flex justify-end gap-3">

@@ -9,6 +9,7 @@ import type { TaskType } from '@/types/task.types';
 import ConfirmDeleteDialog from './ConfirmDeleteDialog';
 import EmptyState from './EmptyState';
 import TaskImage from './TaskImage';
+import RichTextContent from './RichTextContent';
 import DueBadge from './DueBadge';
 import { isCompletedStatus } from '@/constants/task.constants';
 
@@ -46,9 +47,7 @@ export default function MyTaskBriefDetails({ activeTask }: { activeTask: TaskTyp
       </div>
 
       <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1">
-        <p className="text-sm leading-relaxed break-words whitespace-pre-wrap text-stone-600">
-          {activeTask.description}
-        </p>
+        <RichTextContent html={activeTask.description} />
       </div>
 
       <div className="flex shrink-0 justify-end gap-3">
