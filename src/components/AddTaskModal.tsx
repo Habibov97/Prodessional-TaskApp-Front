@@ -1,121 +1,65 @@
 'use client';
+import { useActionState, useState } from 'react';
+import { toast } from 'sonner';
 import { HiOutlinePlusSmall } from 'react-icons/hi2';
+import { PiNotePencilDuotone } from 'react-icons/pi';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from './ui/button';
-import { Field, FieldGroup, FieldLabel, FieldDescription } from './ui/field';
+import { Field, FieldGroup, FieldLabel } from './ui/field';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Checkbox } from './ui/checkbox';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
-import { useActionState, useEffect, useState } from 'react';
-import { taskFormAction } from '@/actions/taskForm.action';
 import { FieldError } from './FieldError';
-import { useCategories } from '@/hooks/useCategories';
-import { TaskType } from '@/types/task.types';
-import { PiNotePencilDuotone } from 'react-icons/pi';
+import { taskFormAction } from '@/actions/task.actions';
+import { NOT_STARTED, priorityTone, statusTone, titleKey, type Tone } from '@/constants/task.constants';
+import { cn } from '@/lib/utils';
+import type { TaskCategories } from '@/lib/api';
+import type { CategoryEntity } from '@/types/category.types';
+import type { TaskType } from '@/types/task.types';
 
-const NOT_STARTED_KEY = 'not started';
-const key = (t: string) => t.trim().toLowerCase();
+type Props = {
+  categories: TaskCategories;
+  updateTask?: TaskType;
+};
 
-const PRIORITY_DOT: Record<string, string> = {
-  extreme: 'bg-red-500',
-  moderate: 'bg-blue-500',
-  low: 'bg-green-500',
-};
-const PRIORITY_CHECKBOX: Record<string, string> = {
-  extreme: 'data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500',
-  moderate: 'data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500',
-  low: 'data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500',
-};
-const STATUS_DOT: Record<string, string> = {
-  'not started': 'bg-red-500',
-  'in progress': 'bg-blue-500',
-  done: 'bg-green-500',
-  completed: 'bg-green-500',
-};
-const STATUS_CHECKBOX: Record<string, string> = {
-  'not started': 'data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500',
-  'in progress': 'data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500',
-  done: 'data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500',
-  completed: 'data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500',
-};
-const DEFAULT_DOT = 'bg-stone-400';
-const DEFAULT_CHECKBOX = 'data-[state=checked]:bg-stone-400 data-[state=checked]:border-stone-400';
-
-export default function AddTaskModal({ updateTask }: { updateTask?: TaskType }) {
+export default function AddTaskModal({ categories, updateTask }: Props) {
   const isUpdate = !!updateTask;
-
   const [open, setOpen] = useState(false);
-  const [selectedPriorityId, setSelectedPriorityId] = useState<string | null>(null);
-  const [selectedStatusId, setSelectedStatusId] = useState<string | null>(null);
-
-  const [state, action, isLoading] = useActionState(taskFormAction, {});
-  const { priorities, statuses, isLoading: categoriesLoading, error: categoriesError } = useCategories(open);
-
-  // Sync selection state when modal opens/closes
-  useEffect(() => {
-    if (open && isUpdate) {
-      setSelectedPriorityId(updateTask.priorityId);
-      setSelectedStatusId(updateTask.statusId);
-    }
-    if (!open) {
-      setSelectedPriorityId(null);
-      setSelectedStatusId(null);
-    }
-  }, [open]);
-
-  // Create mode: auto-select first priority once loaded
-  useEffect(() => {
-    if (!isUpdate && priorities.length > 0 && !selectedPriorityId) {
-      setSelectedPriorityId(priorities[0].id);
-    }
-  }, [priorities]);
-
-  // Create mode: auto-select "Not Started" once loaded
-  useEffect(() => {
-    if (!isUpdate && statuses.length > 0 && !selectedStatusId) {
-      const notStarted = statuses.find((s) => key(s.title) === NOT_STARTED_KEY);
-      if (notStarted) setSelectedStatusId(notStarted.id);
-    }
-  }, [statuses]);
-
-  // Close on success
-  useEffect(() => {
-    if (state.success) setOpen(false);
-  }, [state.success]);
-
-  const canSubmit = !isLoading && !categoriesLoading && !!selectedStatusId && !!selectedPriorityId;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="flex gap-1 items-center text-[14px] cursor-pointer">
-          {isUpdate ? (
-            <div className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors text-white">
-              <PiNotePencilDuotone />
-            </div>
-          ) : (
-            <>
-              <span className="text-[23px]">
-                <HiOutlinePlusSmall />
-              </span>
-              <span>Add Task</span>
-            </>
-          )}
-        </div>
+        {isUpdate ? (
+          <button
+            type="button"
+            aria-label="Edit task"
+            className="flex size-9 cursor-pointer items-center justify-center rounded-md bg-red-500 text-white transition-colors hover:bg-red-600"
+          >
+            <PiNotePencilDuotone className="size-5" />
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="flex cursor-pointer items-center gap-1 rounded-md px-1 text-sm text-stone-500 transition-colors hover:text-red-500"
+          >
+            <HiOutlinePlusSmall className="size-5 text-red-500" />
+            <span>Add Task</span>
+          </button>
+        )}
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-3xl">
+      <DialogContent className="max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] overflow-y-auto rounded-2xl sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle className="relative text-md font-semibold pb-1 after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-400 self-start mb-2">
+          <DialogTitle className="relative mb-2 self-start pb-1 font-semibold after:absolute after:bottom-0 after:left-1 after:h-[2px] after:w-1/2 after:bg-green-400">
             {isUpdate ? 'Update Task' : 'Add New Task'}
           </DialogTitle>
           <DialogDescription className="sr-only">
@@ -123,117 +67,143 @@ export default function AddTaskModal({ updateTask }: { updateTask?: TaskType }) 
           </DialogDescription>
         </DialogHeader>
 
-        {categoriesError && (
-          <p className="text-sm text-red-500">Could not load priority/status options: {categoriesError}</p>
-        )}
-        {state.message && !state.success && <p className="text-sm text-red-500">{state.message}</p>}
-
-        {/* key forces form remount when switching between tasks, resetting uncontrolled inputs */}
-        <form action={action} id="add-task-form" key={updateTask?.id ?? 'new'}>
-          {/* Hidden field: tells the action whether this is a create or update */}
-          {isUpdate && <input type="hidden" name="taskId" value={updateTask.id} />}
-
-          <div className="border border-stone-200 p-6 flex justify-center gap-5">
-            <FieldGroup className="w-2/3">
-              <Field>
-                <Label htmlFor="title" className="font-bold text-[#333]">
-                  Name
-                </Label>
-                <Input id="title" name="title" defaultValue={updateTask?.title ?? ''} />
-                <FieldError errors={state.errors?.title} />
-              </Field>
-
-              <Field>
-                <Label className="font-bold text-[#333]">Priority</Label>
-                {categoriesLoading ? (
-                  <div className="text-xs text-stone-400">Loading...</div>
-                ) : (
-                  <div className="flex gap-5">
-                    {priorities.map((p) => (
-                      <div key={p.id} className="flex gap-1.5 items-center">
-                        <div className={`w-[8px] h-[8px] rounded-full ${PRIORITY_DOT[key(p.title)] ?? DEFAULT_DOT}`} />
-                        <div className="text-xs">{p.title}</div>
-                        <Checkbox
-                          id={`priority-${p.id}`}
-                          name="priorityId"
-                          value={p.id}
-                          className={PRIORITY_CHECKBOX[key(p.title)] ?? DEFAULT_CHECKBOX}
-                          checked={selectedPriorityId === p.id}
-                          onCheckedChange={(checked) => setSelectedPriorityId(checked ? p.id : null)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Field>
-
-              <Field>
-                <Label className="font-bold text-[#333]">Status</Label>
-                {categoriesLoading ? (
-                  <div className="text-xs text-stone-400">Loading...</div>
-                ) : isUpdate ? (
-                  // Update mode: all statuses selectable
-                  <div className="flex gap-5">
-                    {statuses.map((s) => (
-                      <div key={s.id} className="flex gap-1.5 items-center">
-                        <div className={`w-[8px] h-[8px] rounded-full ${STATUS_DOT[key(s.title)] ?? DEFAULT_DOT}`} />
-                        <div className="text-xs">{s.title}</div>
-                        <Checkbox
-                          id={`status-${s.id}`}
-                          name="statusId"
-                          value={s.id}
-                          className={STATUS_CHECKBOX[key(s.title)] ?? DEFAULT_CHECKBOX}
-                          checked={selectedStatusId === s.id}
-                          onCheckedChange={(checked) => setSelectedStatusId(checked ? s.id : null)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  // Create mode: always "Not Started", read-only
-                  selectedStatusId && (
-                    <div className="flex gap-1.5 items-center">
-                      <div className={`w-[8px] h-[8px] rounded-full ${STATUS_DOT['not started']}`} />
-                      <div className="text-xs">Not Started</div>
-                      <input type="hidden" name="statusId" value={selectedStatusId} />
-                    </div>
-                  )
-                )}
-              </Field>
-
-              <Field>
-                <FieldLabel htmlFor="textarea-message" className="font-bold text-[#333]">
-                  Task Description
-                </FieldLabel>
-                <Textarea
-                  id="textarea-message"
-                  name="description"
-                  className="h-[160px] resize-none pr-3 custom-scrollbar"
-                  placeholder="Start writing here..."
-                  defaultValue={updateTask?.description ?? ''}
-                />
-                <FieldError errors={state.errors?.description} />
-              </Field>
-            </FieldGroup>
-
-            <FieldGroup className="w-1/3">
-              <Field>
-                <FieldLabel htmlFor="picture" className="font-bold text-[#333]">
-                  Upload Image
-                </FieldLabel>
-                <FieldDescription>Select a picture to upload.</FieldDescription>
-                <Input id="picture" name="picture" type="file" />
-              </Field>
-            </FieldGroup>
-          </div>
-        </form>
-
-        <DialogFooter>
-          <Button type="submit" form="add-task-form" className="bg-red-500 hover:bg-red-600" disabled={!canSubmit}>
-            {isLoading ? 'Loading...' : isUpdate ? 'Update Task' : 'Save Changes'}
-          </Button>
-        </DialogFooter>
+        {/* Mounted only while the dialog is open, so every opening starts with a fresh form */}
+        <TaskForm categories={categories} updateTask={updateTask} onSuccess={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
+  );
+}
+
+function defaultPriorityId(priorities: CategoryEntity[]) {
+  return (priorities.find((p) => titleKey(p.title) === 'moderate') ?? priorities[0])?.id ?? '';
+}
+
+function TaskForm({ categories, updateTask, onSuccess }: Props & { onSuccess: () => void }) {
+  const isUpdate = !!updateTask;
+  const { priorities, statuses } = categories;
+  const notStarted = statuses.find((s) => titleKey(s.title) === NOT_STARTED);
+
+  const [priorityId, setPriorityId] = useState(updateTask?.priorityId ?? defaultPriorityId(priorities));
+  const [statusId, setStatusId] = useState(updateTask?.statusId ?? notStarted?.id ?? '');
+
+  const [state, action, isPending] = useActionState(async (prevState: Parameters<typeof taskFormAction>[0], formData: FormData) => {
+    const result = await taskFormAction(prevState, formData);
+    if (result.success) {
+      toast.success(result.message);
+      onSuccess();
+    }
+    return result;
+  }, {});
+
+  const categoriesMissing = priorities.length === 0 || statuses.length === 0;
+  const canSubmit = !isPending && !!priorityId && !!statusId;
+
+  return (
+    <form action={action} className="flex flex-col gap-6">
+      {isUpdate && <input type="hidden" name="taskId" value={updateTask.id} />}
+
+      {categoriesMissing && <p className="text-sm text-red-500">Could not load priority/status options.</p>}
+      {state.message && !state.success && <p className="text-sm text-red-500">{state.message}</p>}
+
+      <FieldGroup className="gap-5 rounded-xl border border-stone-200 p-4 sm:p-6">
+        <Field>
+          <Label htmlFor="title" className="font-bold text-[#333]">
+            Name
+          </Label>
+          <Input id="title" name="title" defaultValue={updateTask?.title ?? ''} aria-invalid={!!state.errors?.title} />
+          <FieldError errors={state.errors?.title} />
+        </Field>
+
+        <Field>
+          <Label className="font-bold text-[#333]">Priority</Label>
+          <CategoryRadioGroup
+            name="priorityId"
+            label="Priority"
+            items={priorities}
+            value={priorityId}
+            onChange={setPriorityId}
+            toneOf={priorityTone}
+          />
+          <FieldError errors={state.errors?.priorityId} />
+        </Field>
+
+        <Field>
+          <Label className="font-bold text-[#333]">Status</Label>
+          {isUpdate ? (
+            <CategoryRadioGroup
+              name="statusId"
+              label="Status"
+              items={statuses}
+              value={statusId}
+              onChange={setStatusId}
+              toneOf={statusTone}
+            />
+          ) : (
+            // New tasks always start as "Not Started"
+            <div className="flex items-center gap-1.5 text-xs">
+              <span className={cn('size-2 rounded-full', statusTone(NOT_STARTED).dot)} />
+              <span>{notStarted?.title ?? 'Not Started'}</span>
+              <input type="hidden" name="statusId" value={statusId} />
+            </div>
+          )}
+          <FieldError errors={state.errors?.statusId} />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="description" className="font-bold text-[#333]">
+            Task Description
+          </FieldLabel>
+          <Textarea
+            id="description"
+            name="description"
+            className="custom-scrollbar h-[160px] resize-none pr-3"
+            placeholder="Start writing here..."
+            defaultValue={updateTask?.description ?? ''}
+            aria-invalid={!!state.errors?.description}
+          />
+          <FieldError errors={state.errors?.description} />
+        </Field>
+      </FieldGroup>
+
+      <DialogFooter>
+        <Button type="submit" className="rounded-md bg-red-500 text-white hover:bg-red-600" disabled={!canSubmit}>
+          {isPending ? 'Saving...' : isUpdate ? 'Update Task' : 'Save Task'}
+        </Button>
+      </DialogFooter>
+    </form>
+  );
+}
+
+function CategoryRadioGroup({
+  name,
+  label,
+  items,
+  value,
+  onChange,
+  toneOf,
+}: {
+  name: string;
+  label: string;
+  items: CategoryEntity[];
+  value: string;
+  onChange: (id: string) => void;
+  toneOf: (title?: string | null) => Tone;
+}) {
+  return (
+    <RadioGroup name={name} value={value} onValueChange={onChange} aria-label={label} className="flex flex-wrap gap-x-5 gap-y-2">
+      {items.map((item) => {
+        const tone = toneOf(item.title);
+        const id = `${name}-${item.id}`;
+        return (
+          <div key={item.id} className="flex items-center gap-1.5">
+            <span className={cn('size-2 rounded-full', tone.dot)} />
+            <label htmlFor={id} className="cursor-pointer text-xs">
+              {item.title}
+            </label>
+            <RadioGroupItem id={id} value={item.id} className={tone.radio} />
+          </div>
+        );
+      })}
+    </RadioGroup>
   );
 }

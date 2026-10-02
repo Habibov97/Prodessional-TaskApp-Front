@@ -3,8 +3,6 @@ export type RegisterFormState = {
   lastName?: FormDataEntryValue | null;
   userName?: FormDataEntryValue | null;
   email?: FormDataEntryValue | null;
-  password?: FormDataEntryValue | null;
-  confirmPassword?: FormDataEntryValue | null;
   errors?: {
     firstName?: string[];
     lastName?: string[];
@@ -12,7 +10,7 @@ export type RegisterFormState = {
     email?: string[];
     password?: string[];
     confirmPassword?: string[];
-    message?: string[];
+    message?: string;
   };
   success?: string;
 };

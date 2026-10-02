@@ -4,20 +4,23 @@ import { Label } from '@/components/ui/label';
 
 export default function ChangePassword() {
   return (
-    <div className="flex flex-col gap-5">
-      <div className="border border-stone-200 p-[26px]">
-        <div className="w-1/2 flex flex-col gap-4">
-          <Label className="font-bold">Current Password</Label>
-          <Input className="rounded-sm" />
-          <Label className="font-bold">New Password</Label>
-          <Input className="rounded-sm" />
-          <Label className="font-bold">Confirm Password</Label>
-          <Input className="rounded-sm" />
-        </div>
-        <div className="flex gap-2 mt-10">
-          <Button className="bg-red-500 rounded-md hover:bg-red-600">Update Password</Button>
-          {/* <Button className="bg-red-500 rounded-md hover:bg-red-600">Cancel</Button> */}
-        </div>
+    <div className="rounded-xl border border-stone-200 p-4 sm:p-6">
+      <div className="flex w-full max-w-md flex-col gap-4">
+        <Label htmlFor="currentPassword" className="font-bold">
+          Current Password
+        </Label>
+        <Input id="currentPassword" type="password" autoComplete="current-password" className="rounded-sm" />
+        <Label htmlFor="newPassword" className="font-bold">
+          New Password
+        </Label>
+        <Input id="newPassword" type="password" autoComplete="new-password" className="rounded-sm" />
+        <Label htmlFor="confirmPassword" className="font-bold">
+          Confirm Password
+        </Label>
+        <Input id="confirmPassword" type="password" autoComplete="new-password" className="rounded-sm" />
+      </div>
+      <div className="mt-8 flex gap-2">
+        <Button className="rounded-md bg-red-500 text-white hover:bg-red-600">Update Password</Button>
       </div>
     </div>
   );

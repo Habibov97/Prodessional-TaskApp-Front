@@ -1,5 +1,6 @@
 export const authConstants = {
   SIGNUP: 'Sign Up',
+  SIGNINTITLE: 'Sign In',
   ALREADYHAVEACCOUNT: 'Already have an account?',
   DONTHAVEANACCOUNT: "Don't have an account?",
   CREATEONE: 'Create one',

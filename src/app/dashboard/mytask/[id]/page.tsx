@@ -1,52 +1,49 @@
-import GoBack from '@/components/GoBack';
-import { fetchWithAuth } from '@/lib/fetchWithAuth.server';
-// import { FaTrash } from 'react-icons/fa';
-// import { PiNotePencilDuotone } from 'react-icons/pi';
+import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
+import GoBack from '@/components/GoBack';
 import AddTaskModal from '@/components/AddTaskModal';
+import DeleteTaskButton from '@/components/DeleteTaskButton';
+import { getCategories, getTask } from '@/lib/api';
+import { priorityTone, statusTone } from '@/constants/task.constants';
 
 export default async function TaskDetails({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/task/${id}`);
-  const { data } = await res.json();
+  const [task, categories] = await Promise.all([getTask(id), getCategories()]);
+
+  if (!task) notFound();
 
   return (
-    <section className="px-[76px] min-w-[1200px]">
-      <main className="grid grid-rows-[auto_minmax(0,1fr)_auto] gap-5 border rounded-md shadow-[0_0_5px_rgba(0,0,0,0.08)] p-[26px] mb-[26px] h-[76dvh]">
-        <div className="flex gap-5 items-start">
-          <div className="w-[170px] h-[170px] rounded-xl bg-stone-200 shrink-0" />
-          <div className="flex flex-col gap-4 justify-end flex-1 min-w-0">
-            <h2 className="text-3xl font-semibold">{data?.title}</h2>
-            <div className="text-sm flex gap-1">
-              <span>Priority:</span>
-              <span className="text-red-500">{data?.priority?.title}</span>
-            </div>
-            <div className="text-sm flex gap-1">
-              <span>Status:</span>
-              <span className="text-red-500">{data?.status?.title}</span>
-            </div>
-            <div className="text-sm flex gap-1 text-stone-400">
-              <span>Created on</span>
-              <span>{data?.createdAt && format(new Date(data?.createdAt), 'dd/MM/yyyy')}</span>
-            </div>
+    <article className="flex flex-col gap-5 rounded-2xl border p-4 shadow-[0_0_5px_rgba(0,0,0,0.08)] sm:p-6 lg:h-full lg:min-h-[480px]">
+      <div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:gap-5">
+        <div className="size-28 shrink-0 rounded-xl bg-stone-200 sm:size-[170px]" />
+        <div className="flex min-w-0 flex-1 flex-col gap-3 sm:justify-end sm:self-stretch">
+          <h1 className="text-2xl font-semibold break-words text-[#333] sm:text-3xl">{task.title}</h1>
+          <div className="flex gap-1 text-sm">
+            <span>Priority:</span>
+            <span className={priorityTone(task.priority?.title).text}>{task.priority?.title}</span>
           </div>
+          <div className="flex gap-1 text-sm">
+            <span>Status:</span>
+            <span className={statusTone(task.status?.title).text}>{task.status?.title}</span>
+          </div>
+          <div className="flex gap-1 text-sm text-stone-400">
+            <span>Created on</span>
+            <span>{format(new Date(task.createdAt), 'dd/MM/yyyy')}</span>
+          </div>
+        </div>
+        <div className="self-end sm:self-start">
           <GoBack />
         </div>
+      </div>
 
-        <div className="overflow-y-auto pr-1 text-[16px] leading-[1.7] text-stone-600 break-words">
-          {data?.description}
-        </div>
+      <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto pr-1 text-base leading-[1.7] break-words whitespace-pre-wrap text-stone-600">
+        {task.description}
+      </div>
 
-        <div className="flex gap-3 justify-end">
-          {/* <button
-            type="button"
-            className="w-9 h-9 rounded-md bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
-          >
-            <FaTrash className="w-[18px] h-[18px] text-white" />
-          </button> */}
-          <AddTaskModal updateTask={data} />
-        </div>
-      </main>
-    </section>
+      <div className="flex justify-end gap-3">
+        <DeleteTaskButton taskId={task.id} taskTitle={task.title} redirectTo="/dashboard/mytask" />
+        <AddTaskModal categories={categories} updateTask={task} />
+      </div>
+    </article>
   );
 }
