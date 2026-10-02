@@ -30,7 +30,7 @@ export default function Navbar({ user, tasks }: { user: UserType | null; tasks: 
           <Link
             href="/dashboard/search"
             aria-label="Search tasks"
-            className="flex size-9 items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600 md:hidden"
+            className="flex size-9 items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600 dark:bg-red-500/15 dark:text-red-400 dark:hover:bg-red-500/25 md:hidden"
           >
             <FaSearch className="text-sm" />
           </Link>
@@ -39,7 +39,7 @@ export default function Navbar({ user, tasks }: { user: UserType | null; tasks: 
           <Link
             href="/dashboard/settings"
             aria-label="Account settings"
-            className="flex size-9 items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600"
+            className="flex size-9 items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600 dark:bg-red-500/15 dark:text-red-400 dark:hover:bg-red-500/25"
           >
             <FaUserLarge className="text-sm" />
           </Link>

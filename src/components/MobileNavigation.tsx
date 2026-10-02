@@ -19,7 +19,7 @@ export default function MobileNavigation({ user }: { user: UserType | null }) {
           <HiOutlineMenuAlt2 className="size-6" />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="bg-transparent text-white">
+      <SheetContent side="left" className="bg-transparent text-white dark:text-foreground">
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <SheetDescription className="sr-only">Dashboard pages and account actions</SheetDescription>
         <DashboardNavigation user={user} onNavigate={() => setOpen(false)} />

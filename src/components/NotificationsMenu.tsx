@@ -27,7 +27,7 @@ export default function NotificationsMenu({ tasks }: { tasks: TaskType[] }) {
         <button
           type="button"
           aria-label={items.length ? `Notifications, ${items.length} due` : 'Notifications'}
-          className="relative flex size-9 cursor-pointer items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600"
+          className="relative flex size-9 cursor-pointer items-center justify-center rounded-md bg-red-500 text-[#f3f3f3] hover:bg-red-600 dark:bg-red-500/15 dark:text-red-400 dark:hover:bg-red-500/25"
         >
           <IoMdNotificationsOutline className="text-xl" />
           {items.length > 0 && (
